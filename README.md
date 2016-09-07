@@ -7,7 +7,7 @@
 
 Start Quiz (Level default 1) //Default ??
 Statistics
-Options 
+Options
 Quit
 // Possibly Review Quiz
 
@@ -39,5 +39,6 @@ Pause Button
 Stop Button
 Go back to menu button
 // Manipulation for bonus marks (e.g. fast foward)
+
 -----Quit
 just quits program
