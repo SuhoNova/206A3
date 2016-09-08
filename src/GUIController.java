@@ -1,4 +1,3 @@
-package spellingAid;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +7,7 @@ import java.io.PrintWriter;
 
 import javax.swing.JComboBox;
 
-public class GUIController implements Controller{
+public class GUIController {
 	private GUIView _view;
 	private GUIModel _model;
 

@@ -14,7 +14,7 @@ public class FestivalWork extends SwingWorker<Void,Void> {
 	protected Void doInBackground() throws Exception {
 		
 		PrintWriter writer = new PrintWriter("sayText.scm", "UTF-8");
-		//writer.println("(" + _voice + ")");
+		writer.println("(voice_" + _voice + ")");
 		writer.println("(SayText \"" + _sentence + "\")");
 		writer.close();
 		

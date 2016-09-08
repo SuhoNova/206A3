@@ -1,4 +1,4 @@
-package spellingAid;
+
 
 public class GUIModel {
 	public void ExecuteStats(){

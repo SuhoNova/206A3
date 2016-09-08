@@ -1,5 +1,3 @@
-package spellingAid;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,6 +24,5 @@ public class SpellingAid {
 		GUIView guiView = new GUIView();
 		GUIModel guiModel = new GUIModel();
 		GUIController guiController = new GUIController(guiView, guiModel);  
-
 	}
 }
