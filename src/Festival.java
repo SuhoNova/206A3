@@ -2,6 +2,7 @@
 public class Festival {
 	private String _voice;
 	private boolean _apostropheExist = false;
+	private FestivalWork _fw;
 	
 	public Festival(String voice){
 		// CHANGE to voice FOR VOICE
@@ -17,6 +18,7 @@ public class Festival {
 		 * 
 		 */
 		_voice = "kal_diphone";
+		_fw = new FestivalWork();
 	}
 	
 	public void speakWord(String word) throws Exception{
@@ -26,8 +28,7 @@ public class Festival {
 		} else {
 			word = "How do you spell " + word + "? The one without an apostrophe.";
 		}
-		FestivalWork fw = new FestivalWork(word,_voice);
-		fw.doInBackground();
+		_fw.callBackground(word, _voice);
 	}
 	public void speakLetter(String word) throws Exception {
 		String temp = "";
@@ -38,13 +39,11 @@ public class Festival {
 				temp += word.charAt(i) + " ...... ";
 			}
 		}
-		FestivalWork fw = new FestivalWork(word,_voice);
-		fw.doInBackground();
+		_fw.callBackground(word, _voice);
 	}
 	
 	public void speakIt(String word) throws Exception{
-		FestivalWork fw = new FestivalWork(word,_voice);
-		fw.doInBackground();
+		_fw.callBackground(word, _voice);
 	}
 	
 	public boolean doesApostropheExist(String word){
