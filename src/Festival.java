@@ -29,6 +29,23 @@ public class Festival {
 		FestivalWork fw = new FestivalWork(word,_voice);
 		fw.doInBackground();
 	}
+	public void speakLetter(String word) throws Exception {
+		String temp = "";
+		for(int i = 0; i < word.length(); i++){
+			if(word.charAt(i) == '\''){
+				temp += "apostrophe ...... ";
+			} else {
+				temp += word.charAt(i) + " ...... ";
+			}
+		}
+		FestivalWork fw = new FestivalWork(word,_voice);
+		fw.doInBackground();
+	}
+	
+	public void speakIt(String word) throws Exception{
+		FestivalWork fw = new FestivalWork(word,_voice);
+		fw.doInBackground();
+	}
 	
 	public boolean doesApostropheExist(String word){
 		if(word.contains("'")){

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
@@ -21,13 +22,15 @@ public class VideoReward extends JFrame implements ActionListener{
 	private final EmbeddedMediaPlayerComponent _mediaPlayerComponent;
 	private final EmbeddedMediaPlayer _video;
 	 
+	private JPanel _mainPanel;
+	private JPanel _panel;
+	
 	private JButton _stopButton;
 	private JButton _pauseButton;
 	private JButton _fastforward;
 	private JButton _rewind;
-	private JPanel _mainPanel;
-	private JPanel _panel;
-	
+	private JTextField _text;
+	private int _timeSkip;
 	
 	public VideoReward(String filename){	
 		super("Video Reward");		
@@ -64,9 +67,11 @@ public class VideoReward extends JFrame implements ActionListener{
 				_pauseButton.setText("Pause");
 			}
 		} else if(event.getSource() == _rewind){
-			_video.skip(-5000);
+			_video.skip(-_timeSkip);
 		} else if(event.getSource() == _fastforward){
-			_video.skip(5000);
+			_video.skip(_timeSkip);
+		} else if (event.getSource() == _text){
+			_timeSkip = Integer.parseInt(_text.getText());
 		}
 	}
 	
@@ -85,10 +90,12 @@ public class VideoReward extends JFrame implements ActionListener{
 		_stopButton = new JButton("Exit Video");
 		_fastforward = new JButton("Jump Forward");
 		_rewind = new JButton("Jump Backward");
+		_text = new JTextField("500");
 		
 		_panel.add(_rewind);
 		_panel.add(_pauseButton);
 		_panel.add(_fastforward);
+		_panel.add(_text);
 		_panel.add(_stopButton);
 		
 		setContentPane(_mainPanel);
