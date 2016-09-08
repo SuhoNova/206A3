@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 public class SpellingAid {
 	public static void main(String[] args){
 		//create necessary files on startup
+		/*
 		PrintWriter outputFile;
 		try{
 			outputFile = new PrintWriter(new FileWriter("mastered", true));
@@ -23,6 +24,7 @@ public class SpellingAid {
 		
 		GUIView guiView = new GUIView();
 		GUIModel guiModel = new GUIModel();
-		GUIController guiController = new GUIController(guiView, guiModel);  
+		GUIController guiController = new GUIController(guiView, guiModel);  */
+		VideoReward vr = new VideoReward("ASDF");
 	}
 }

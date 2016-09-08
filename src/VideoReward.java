@@ -5,8 +5,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
@@ -24,13 +26,19 @@ public class VideoReward extends JFrame implements ActionListener{
 	 
 	private JPanel _mainPanel;
 	private JPanel _panel;
+	private JPanel _timePanel;
 	
 	private JButton _stopButton;
 	private JButton _pauseButton;
-	private JButton _fastforward;
-	private JButton _rewind;
-	private JTextField _text;
-	private int _timeSkip;
+	private JButton _jumpForward;
+	private JButton _jumpBackward;
+	private JButton _mute;
+	private JLabel _label;
+	private Timer _timer;
+	
+	
+	private long _videoLength;
+	private int _timeSkip = 5000;
 	
 	public VideoReward(String filename){	
 		super("Video Reward");		
@@ -46,7 +54,7 @@ public class VideoReward extends JFrame implements ActionListener{
 		setVisible(true);
 		setSize(640,480);	
 		setLocation(100,100);
-       
+		_timer.start();
 		/**
 		 * CHANGE THIS TO GET VIDEO YOU WANT
 		 */
@@ -66,12 +74,25 @@ public class VideoReward extends JFrame implements ActionListener{
 			} else if(_pauseButton.getText().equals("Play")){
 				_pauseButton.setText("Pause");
 			}
-		} else if(event.getSource() == _rewind){
+		} else if(event.getSource() == _jumpBackward){
 			_video.skip(-_timeSkip);
-		} else if(event.getSource() == _fastforward){
+		} else if(event.getSource() == _jumpForward){
 			_video.skip(_timeSkip);
-		} else if (event.getSource() == _text){
-			_timeSkip = Integer.parseInt(_text.getText());
+		} else if (event.getSource() == _mute){
+			_video.mute();
+			if(_pauseButton.getText().equals("Mute")){
+				_pauseButton.setText("UnMute");
+			} else if(_pauseButton.getText().equals("Unmute")){
+				_pauseButton.setText("Mute");
+			}
+		} else if (event.getSource() == _timer){
+			long timeSeconds = (long)(_video.getTime()/1000.0);
+			_videoLength = (long)(_video.getLength()/1000.0);
+			_label.setText("" + timeSeconds + " / " + _videoLength + " seconds");
+			if(timeSeconds == _videoLength){
+				_video.stop();
+				this.dispose();
+			}
 		}
 	}
 	
@@ -85,29 +106,36 @@ public class VideoReward extends JFrame implements ActionListener{
 	public void setAddButtonsToPanel(){
 		_mainPanel = new JPanel(new BorderLayout());
 		_panel = new JPanel(new GridLayout(1,4));
+		_timePanel = new JPanel(new GridLayout(1,2));
 		
 		_pauseButton = new JButton("Pause");
 		_stopButton = new JButton("Exit Video");
-		_fastforward = new JButton("Jump Forward");
-		_rewind = new JButton("Jump Backward");
-		_text = new JTextField("500");
+		_jumpForward = new JButton("Jump Forward");
+		_jumpBackward = new JButton("Jump Backward");
+		_mute = new JButton("Mute");
+		_timer = new Timer(1000, this);
+		_label = new JLabel("0");
 		
-		_panel.add(_rewind);
+		_panel.add(_jumpBackward);
 		_panel.add(_pauseButton);
-		_panel.add(_fastforward);
-		_panel.add(_text);
+		_panel.add(_jumpForward);
+		_panel.add(_mute);
 		_panel.add(_stopButton);
+		
+		_timePanel.add(_label);
 		
 		setContentPane(_mainPanel);
 		
 		_mainPanel.add(_mediaPlayerComponent, BorderLayout.CENTER);
+		_mainPanel.add(_timePanel, BorderLayout.NORTH);
 		_mainPanel.add(_panel, BorderLayout.SOUTH);
 	}
 	public void setActionListenerToButtons(){
 		_stopButton.addActionListener(this);
         _pauseButton.addActionListener(this);
-        _fastforward.addActionListener(this);
-        _rewind.addActionListener(this);
+        _jumpForward.addActionListener(this);
+        _jumpBackward.addActionListener(this);
+        _mute.addActionListener(this);
 	}
 	
 }
