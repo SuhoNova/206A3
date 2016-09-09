@@ -1,4 +1,4 @@
-
+package viewAndController;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
@@ -21,35 +21,34 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class GUIView extends JFrame{
-
-	private JPanel _mainPanel = new JPanel();
-	private CardLayout _mainLayout = new CardLayout();
+public class SpellingAidView extends JFrame{
+	
 	private JPanel _mainMenuPanel = new JPanel(new GridLayout(5,1));
 	private JPanel _quizPanel = new JPanel(new BorderLayout());
 	private JPanel _statsPanel = new JPanel(new GridLayout());
 	private JPanel _optionsPanel = new JPanel(new BorderLayout());
 	
-	private JButton _startQuizButton = new JButton("Start New Quiz");
-	private JButton _viewStatsButton = new JButton("View Statistics");
-	private JButton _optionsButton = new JButton("Options");
-	private JButton _quitButton = new JButton("Quit");
+	JPanel _mainPanel = new JPanel();
+	CardLayout _mainLayout = new CardLayout();
+	JButton _startQuizButton = new JButton("Start New Quiz");
+	JButton _viewStatsButton = new JButton("View Statistics");
+	JButton _optionsButton = new JButton("Options");
+	JButton _quitButton = new JButton("Quit");
 
-	private JButton _quizMenuButton = new JButton("Back to menu");
-	private JButton _statsMenuButton = new JButton("Back to menu");
-	private JButton _optionsMenuButton = new JButton("Back to menu");
+	JButton _quizMenuButton = new JButton("Back to menu (ENDS CURRENT QUIZ)");
+	JButton _statsMenuButton = new JButton("Back to menu");
+	JButton _optionsMenuButton = new JButton("Back to menu");
 	
-	private JLabel _wordCountLabel = new JLabel(" ");
-	private JLabel _levelLabel = new JLabel(" ");
-	private ArrayList<JLabel> _accuracyRatings = new ArrayList<JLabel>();
-	private JTextField _input= new JTextField();
+	JLabel _wordCountLabel = new JLabel(" ");
+	JLabel _levelLabel = new JLabel(" ");
+	ArrayList<JLabel> _accuracyRatings = new ArrayList<JLabel>();
+	JTextField _input= new JTextField();
 	
-	private JComboBox<String> _quizType = new JComboBox<String>();
-	private JComboBox<String> _quizLevel = new JComboBox<String>();
-	private JComboBox<String> _voiceType = new JComboBox<String>();
+	JComboBox<String> _quizType = new JComboBox<String>();
+	JComboBox<Integer> _quizLevel = new JComboBox<Integer>();
+	JComboBox<String> _voiceType = new JComboBox<String>();
 
-
-	public GUIView(){
+	public SpellingAidView(){
 		//create SpellingAid window
 		super("Spelling Aid");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -78,7 +77,7 @@ public class GUIView extends JFrame{
 	}
 	
 	private void setupMainMenuPanel() {
-		_mainMenuPanel.add(new JLabel("Welcome to Spelling Aid!\nsup"));
+		_mainMenuPanel.add(new JLabel("Welcome to Spelling Aid!"));
 		_mainMenuPanel.add(_startQuizButton);
 		_mainMenuPanel.add(_viewStatsButton);
 		_mainMenuPanel.add(_optionsButton);
@@ -135,16 +134,16 @@ public class GUIView extends JFrame{
 	private void setupOptionsPanel(){
 		_quizType.addItem("Normal");
 		_quizType.addItem("Review");
-		_quizLevel.addItem("1");
-		_quizLevel.addItem("2");
-		_quizLevel.addItem("3");
-		_quizLevel.addItem("4");
-		_quizLevel.addItem("5");
-		_quizLevel.addItem("6");
-		_quizLevel.addItem("7");
-		_quizLevel.addItem("8");
-		_quizLevel.addItem("9");
-		_quizLevel.addItem("10");
+		_quizLevel.addItem(1);
+		_quizLevel.addItem(2);
+		_quizLevel.addItem(3);
+		_quizLevel.addItem(4);
+		_quizLevel.addItem(5);
+		_quizLevel.addItem(6);
+		_quizLevel.addItem(7);
+		_quizLevel.addItem(8);
+		_quizLevel.addItem(9);
+		_quizLevel.addItem(10);
 		_voiceType.addItem("American");
 		_voiceType.addItem("British");
 		_voiceType.addItem("New Zealander");
@@ -166,37 +165,4 @@ public class GUIView extends JFrame{
 		_optionsPanel.add(BorderLayout.NORTH, _optionsMenuButton);
 		_optionsPanel.add(BorderLayout.CENTER, optionGridPanel);
 	}
-	
-	public CardLayout mainLayout(){
-		return _mainLayout;
-	}
-	
-	public JPanel mainPanel(){
-		return _mainPanel;
-	}
-	
-	public JButton quiz(){
-		return _startQuizButton;
-	}
-	
-	public JButton stats(){
-		return _viewStatsButton;
-	}
-	
-	public JButton options(){
-		return _optionsButton;
-	}
-	
-	public JButton quit(){
-		return _quitButton;
-	}
-	
-	public JButton quizMenu(){
-		return _quizMenuButton;
-	}
-	
-	public JButton optionsMenu(){
-		return _optionsMenuButton;
-	}
-	
 }

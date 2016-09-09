@@ -1,3 +1,4 @@
+package spellingAid;
 
 public class Festival {
 	private String _voice;

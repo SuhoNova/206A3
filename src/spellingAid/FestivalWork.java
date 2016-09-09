@@ -1,3 +1,5 @@
+package spellingAid;
+
 import java.io.PrintWriter;
 
 import javax.swing.SwingWorker;
