@@ -6,6 +6,9 @@ import java.io.PrintWriter;
 
 import javax.swing.JFrame;
 
+import viewAndController.SpellingAidController;
+import viewAndController.SpellingAidView;
+
 public class SpellingAid {
 	public static void main(String[] args){
 		//create necessary files on startup
@@ -23,8 +26,8 @@ public class SpellingAid {
 			e.printStackTrace();
 		}
 		
-		GUIView guiView = new GUIView();
-		GUIModel guiModel = new GUIModel();
-		GUIController guiController = new GUIController(guiView, guiModel); 
+		SpellingAidView view = new SpellingAidView();
+		SpellingAidModel model = new SpellingAidModel();
+		SpellingAidController controller = new SpellingAidController(view, model); 
 	}
 }
