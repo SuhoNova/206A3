@@ -22,17 +22,17 @@ public class FileManager {
 				file.close();
 			}
 			//removes the word of the necessary file ("mastered","faulted","failed")
-			if(fileName.equals("mastered")){
-				updateQuizzedWords(word, "failed");
-				updateQuizzedWords(word, "faulted");
+			if(fileName.equals(".mastered")){
+				updateQuizzedWords(word, ".failed");
+				updateQuizzedWords(word, ".faulted");
 			}
-			else if(fileName.equals("failed")){
-				updateQuizzedWords(word, "mastered");
-				updateQuizzedWords(word, "faulted");
+			else if(fileName.equals(".failed")){
+				updateQuizzedWords(word, ".mastered");
+				updateQuizzedWords(word, ".faulted");
 			}
-			else if(fileName.equals("faulted")){
-				updateQuizzedWords(word, "mastered");
-				updateQuizzedWords(word, "failed");
+			else if(fileName.equals(".faulted")){
+				updateQuizzedWords(word, ".mastered");
+				updateQuizzedWords(word, ".failed");
 			}
 
 			//update "stats" file
@@ -45,7 +45,7 @@ public class FileManager {
 	//updates the word statistics in the "stats" file
 	private void updateStatistics(String word, String wordType) throws IOException {
 		ArrayList<String> statsList = new ArrayList<String>();
-		BufferedReader inputFile = new BufferedReader(new FileReader("stats"));
+		BufferedReader inputFile = new BufferedReader(new FileReader(".stats"));
 		//store "stats" contents into an ArrayList
 		String line;
 		while((line = inputFile.readLine())!=null){
@@ -62,23 +62,23 @@ public class FileManager {
 		}
 		//update stats values
 		int i = statsList.indexOf(word);
-		if(wordType.equals("mastered")){
+		if(wordType.equals(".mastered")){
 			int value = Integer.parseInt(statsList.get(i+1));
 			value++;
 			statsList.set(i+1, value+"");
 		}
-		else if(wordType.equals("faulted")){
+		else if(wordType.equals(".faulted")){
 			int value = Integer.parseInt(statsList.get(i+2));
 			value++;
 			statsList.set(i+2, value+"");
 		}
-		else if(wordType.equals("failed")){
+		else if(wordType.equals(".failed")){
 			int value = Integer.parseInt(statsList.get(i+3));
 			value++;
 			statsList.set(i+3, value+"");
 		}
 		//rewrite "stats" file
-		PrintWriter outputFile = new PrintWriter(new FileWriter("stats", false));
+		PrintWriter outputFile = new PrintWriter(new FileWriter(".stats", false));
 		for(int j=0; j < statsList.size()-3;j+=4){
 			outputFile.println(statsList.get(j)+"-"+statsList.get(j+1)+"-"+statsList.get(j+2)+"-"+statsList.get(j+3));
 		}

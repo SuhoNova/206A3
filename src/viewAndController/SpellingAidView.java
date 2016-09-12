@@ -85,7 +85,7 @@ public class SpellingAidView extends JFrame{
 	}
 	
 	private void setupAccuracyRatings(){
-		for(int i=0; i < 10; i++){
+		for(int i=0; i < 11; i++){
 			_accuracyRatings.add(new JLabel(" "));
 		}
 	}
@@ -95,7 +95,7 @@ public class SpellingAidView extends JFrame{
 	}
 
 	private void setupQuizPanel(){
-		JPanel quizInfo = new JPanel(new GridLayout(14,2));
+		JPanel quizInfo = new JPanel(new GridLayout(15,2));
 		quizInfo.add(new JLabel("Level"));
 		quizInfo.add(new JLabel("Accuracy"));
 		quizInfo.add(new JLabel("1:"));
@@ -117,6 +117,8 @@ public class SpellingAidView extends JFrame{
 		quizInfo.add(new JLabel("9:"));
 		quizInfo.add(new JLabel(" "));
 		quizInfo.add(new JLabel("10:"));
+		quizInfo.add(new JLabel(" "));
+		quizInfo.add(new JLabel("11:"));
 		quizInfo.add(new JLabel(" "));
 		quizInfo.add(new JLabel(" "));
 		quizInfo.add(new JLabel(" "));

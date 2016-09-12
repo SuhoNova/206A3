@@ -41,10 +41,11 @@ public class SpellingAidController{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == _view._startQuizButton){
-				_view._mainLayout.show(_view._mainPanel, "quizPanel");
-				int lvl = _model.getQuizLevel();
-				_view._levelLabel.setText(lvl+"");
 				_model.startQuiz();
+				_view._mainLayout.show(_view._mainPanel, "quizPanel");
+				_view._levelLabel.setText(_model.getQuizLevel()+"");
+				_view._wordCountLabel.setText(_model.getWordCount()+"");
+				
 			}
 			else if(e.getSource() == _view._viewStatsButton){
 				//TODO
@@ -87,7 +88,7 @@ public class SpellingAidController{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == _view._input){
 				_model.quizAttempt(_view._input.getText());
-				//_model.calculateAccuracy(_accuracyRating);
+				_view._wordCountLabel.setText(_model.getWordCount()+"");
 				_view._input.setText("");
 			}
 			else if(e.getSource() == _view._quizMenuButton){
