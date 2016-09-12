@@ -8,9 +8,8 @@ import java.io.PrintWriter;
 
 import javax.swing.JComboBox;
 
-import spellingAid.ReviewQuiz;
 import spellingAid.SpellingAidModel;
-import spellingAid.SpellingQuiz;
+
 
 public class SpellingAidController{
 	private SpellingAidView _view;

@@ -5,7 +5,7 @@ public class Festival {
 	private boolean _apostropheExist = false;
 	private FestivalWork _fw;
 	
-	public Festival(String voice){
+	public Festival(String voice) {
 		// CHANGE to voice FOR VOICE
 		/*
 		 * voice options i found in ue4
@@ -20,18 +20,19 @@ public class Festival {
 		 */
 		_voice = "kal_diphone";
 		_fw = new FestivalWork();
+		
 	}
 	
-	public void speakWord(String word) throws Exception{
+	public void speakWord(String word) {
 		_apostropheExist = doesApostropheExist(word);
 		if(_apostropheExist){
 			word = "How do you spell " + word + "? The one with an apostrophe.";
 		} else {
 			word = "How do you spell " + word + "? The one without an apostrophe.";
 		}
-		_fw.callBackground(word, _voice);
+		speakIt(word);
 	}
-	public void speakLetter(String word) throws Exception {
+	public void speakLetter(String word) {
 		String temp = "";
 		for(int i = 0; i < word.length(); i++){
 			if(word.charAt(i) == '\''){
@@ -40,11 +41,15 @@ public class Festival {
 				temp += word.charAt(i) + " ...... ";
 			}
 		}
-		_fw.callBackground(word, _voice);
+		word = temp;
+		speakIt(word);
 	}
 	
-	public void speakIt(String word) throws Exception{
-		_fw.callBackground(word, _voice);
+	public void speakIt(String word) {
+		//FestivalWork fw = new FestivalWork();
+		
+		_fw.setWordAndVoice(word, _voice);
+		_fw.execute();
 	}
 	
 	public boolean doesApostropheExist(String word){
@@ -59,4 +64,5 @@ public class Festival {
 	public String getVoice(){
 		return _voice;
 	}
+
 }
