@@ -22,6 +22,7 @@ public class SpellingAidModel {
 	private String _word;
 	private int _nWordsCount=0;
 	private int _nAttempts=0;
+	
 
 	public void setQuizLevel(int level) {
 		_quizLevel = level;

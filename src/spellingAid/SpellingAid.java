@@ -30,4 +30,5 @@ public class SpellingAid {
 		SpellingAidModel model = new SpellingAidModel();
 		SpellingAidController controller = new SpellingAidController(view, model); 
 	}
+	
 }

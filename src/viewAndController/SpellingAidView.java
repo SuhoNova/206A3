@@ -47,7 +47,7 @@ public class SpellingAidView extends JFrame{
 	JComboBox<String> _quizType = new JComboBox<String>();
 	JComboBox<Integer> _quizLevel = new JComboBox<Integer>();
 	JComboBox<String> _voiceType = new JComboBox<String>();
-
+	
 	public SpellingAidView(){
 		//create SpellingAid window
 		super("Spelling Aid");
