@@ -1,12 +1,5 @@
 package spellingAid;
 
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
-
 public class SpellingAidModel {
 	private Festival _voice = new Festival("American");
 	private int _quizLevel = 1;
