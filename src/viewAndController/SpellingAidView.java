@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class SpellingAidView extends JFrame{
@@ -35,7 +36,7 @@ public class SpellingAidView extends JFrame{
 	JButton _optionsButton = new JButton("Options");
 	JButton _quitButton = new JButton("Quit");
 
-	JButton _quizMenuButton = new JButton("Back to menu (ENDS CURRENT QUIZ)");
+	JButton _quizMenuButton = new JButton("End Quiz");
 	JButton _statsMenuButton = new JButton("Back to menu");
 	JButton _optionsMenuButton = new JButton("Back to menu");
 	
@@ -77,7 +78,7 @@ public class SpellingAidView extends JFrame{
 	}
 	
 	private void setupMainMenuPanel() {
-		_mainMenuPanel.add(new JLabel("Welcome to Spelling Aid!"));
+		_mainMenuPanel.add(new JLabel("Welcome to Spelling Aid!", SwingConstants.CENTER));
 		_mainMenuPanel.add(_startQuizButton);
 		_mainMenuPanel.add(_viewStatsButton);
 		_mainMenuPanel.add(_optionsButton);
