@@ -74,7 +74,9 @@ public class SpellingAidController{
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 				String option = (String)cb.getSelectedItem();
 				_model.setQuizType(option);
-				JOptionPane.showMessageDialog(null, "No words to test! Please change settings in the options menu");
+				if(option.equals("Review")){
+					JOptionPane.showMessageDialog(null, "Review quiz selected. Quiz level option disabled");
+				}
 			}
 			else if(e.getSource() == _view._quizLevel){
 				JComboBox<Integer> cb = (JComboBox<Integer>)e.getSource();
