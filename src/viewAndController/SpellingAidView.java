@@ -26,7 +26,7 @@ public class SpellingAidView extends JFrame{
 	
 	private JPanel _mainMenuPanel = new JPanel(new GridLayout(5,1));
 	private JPanel _quizPanel = new JPanel(new BorderLayout());
-	private JPanel _statsPanel = new JPanel(new GridLayout());
+	private JPanel _statsPanel = new JPanel(new BorderLayout());
 	private JPanel _optionsPanel = new JPanel(new BorderLayout());
 	
 	JPanel _mainPanel = new JPanel();
@@ -42,12 +42,15 @@ public class SpellingAidView extends JFrame{
 	
 	JLabel _wordCountLabel = new JLabel(" ");
 	JLabel _levelLabel = new JLabel(" ");
-	ArrayList<JLabel> _accuracyRatings = new ArrayList<JLabel>();
+	ArrayList<JLabel> _accuracyRatingQuizLabels = new ArrayList<JLabel>();
+	ArrayList<JLabel> _accuracyRatingOptionsLabels = new ArrayList<JLabel>();
 	JTextField _input= new JTextField();
 	
 	JComboBox<String> _quizType = new JComboBox<String>();
 	JComboBox<Integer> _quizLevel = new JComboBox<Integer>();
 	JComboBox<String> _voiceType = new JComboBox<String>();
+	
+	JButton _clearStatsButton = new JButton("Clear statistics");
 	
 	public SpellingAidView(){
 		//create SpellingAid window
@@ -58,23 +61,44 @@ public class SpellingAidView extends JFrame{
 		setLocationRelativeTo(null);
 		
 		_mainPanel.setLayout(_mainLayout);
+		setupAccuracyRatings();
 		setupMainPanel();
 		setupOptionsPanel();
 		setupQuizPanel();
-		setupAccuracyRatings();
 		setupMainMenuPanel();
+		setupStatsPanel();
 		this.add(_mainPanel);
 		_mainLayout.show(_mainPanel, "mainMenuPanel");
 		setResizable(false);
 		pack();
 	}
-
+	
 	//sets up the main panel
 	private void setupMainPanel() {
 		_mainPanel.add(_quizPanel, "quizPanel");
 		_mainPanel.add(_statsPanel , "statsPanel");
 		_mainPanel.add(_optionsPanel, "optionsPanel");
 		_mainPanel.add(_mainMenuPanel , "mainMenuPanel");
+		_mainPanel.add(_statsPanel, "statsPanel");
+	}
+	
+	private void setupStatsPanel() {
+		JPanel infoPanel = new JPanel(new GridLayout(1,2));
+		JPanel accuracyPanel = new JPanel(new GridLayout(12,2));
+		
+		accuracyPanel.add(new JLabel("Level"));
+		accuracyPanel.add(new JLabel("Accuracy"));
+		for(int i = 0; i < 11; i++){
+			accuracyPanel.add(new JLabel(i+1+":"));
+			accuracyPanel.add(_accuracyRatingOptionsLabels.get(i));
+		}
+		
+		infoPanel.add(new JTextField());
+		infoPanel.add(accuracyPanel);
+		
+		_statsPanel.add(infoPanel, BorderLayout.CENTER);
+		_statsPanel.add(_clearStatsButton, BorderLayout.SOUTH);
+		_statsPanel.add(_statsMenuButton, BorderLayout.NORTH);
 	}
 	
 	private void setupMainMenuPanel() {
@@ -87,46 +111,27 @@ public class SpellingAidView extends JFrame{
 	
 	private void setupAccuracyRatings(){
 		for(int i=0; i < 11; i++){
-			_accuracyRatings.add(new JLabel(" "));
+			_accuracyRatingQuizLabels.add(new JLabel(" "));
+			_accuracyRatingOptionsLabels.add(new JLabel(" "));
 		}
-	}
-	
-	public void updateAccuracyRating(int lvl, double accuracy){
-		_accuracyRatings.get(lvl-1).setText(accuracy+"%");
 	}
 
 	private void setupQuizPanel(){
 		JPanel quizInfo = new JPanel(new GridLayout(15,2));
 		quizInfo.add(new JLabel("Level"));
 		quizInfo.add(new JLabel("Accuracy"));
-		quizInfo.add(new JLabel("1:"));
-		quizInfo.add(new JLabel(" "));
-		quizInfo.add(new JLabel("2:"));
-		quizInfo.add(new JLabel(" "));
-		quizInfo.add(new JLabel("3:"));
-		quizInfo.add(new JLabel(" "));
-		quizInfo.add(new JLabel("4:"));
-		quizInfo.add(new JLabel(" "));
-		quizInfo.add(new JLabel("5:"));
-		quizInfo.add(new JLabel(" "));
-		quizInfo.add(new JLabel("6:"));
-		quizInfo.add(new JLabel(" "));
-		quizInfo.add(new JLabel("7:"));
-		quizInfo.add(new JLabel(" "));
-		quizInfo.add(new JLabel("8:"));
-		quizInfo.add(new JLabel(" "));
-		quizInfo.add(new JLabel("9:"));
-		quizInfo.add(new JLabel(" "));
-		quizInfo.add(new JLabel("10:"));
-		quizInfo.add(new JLabel(" "));
-		quizInfo.add(new JLabel("11:"));
-		quizInfo.add(new JLabel(" "));
+		
+		for(int i = 0; i < 11; i++){
+			quizInfo.add(new JLabel(i+1+":"));
+			quizInfo.add(_accuracyRatingQuizLabels.get(i));
+		}
+		
 		quizInfo.add(new JLabel(" "));
 		quizInfo.add(new JLabel(" "));
 		
 		quizInfo.add(new JLabel("Current Quiz Level: "));
 		quizInfo.add(_levelLabel);
-		quizInfo.add(new JLabel("Current Word number: "));
+		quizInfo.add(new JLabel("Test progress: "));
 		quizInfo.add(_wordCountLabel);
 		
 		_quizPanel.add(BorderLayout.NORTH,_quizMenuButton);
@@ -147,6 +152,7 @@ public class SpellingAidView extends JFrame{
 		_quizLevel.addItem(8);
 		_quizLevel.addItem(9);
 		_quizLevel.addItem(10);
+		_quizLevel.addItem(11);
 		_voiceType.addItem("American");
 		_voiceType.addItem("British");
 		_voiceType.addItem("New Zealander");
@@ -156,7 +162,7 @@ public class SpellingAidView extends JFrame{
 		optionGridPanel.add(_quizType);
 		optionGridPanel.add(new JLabel(" "));
 		optionGridPanel.add(new JLabel(" "));
-		optionGridPanel.add(new JLabel("Quiz Level"));
+		optionGridPanel.add(new JLabel("Quiz Starting Level"));
 		optionGridPanel.add(_quizLevel);
 		optionGridPanel.add(new JLabel(" "));
 		optionGridPanel.add(new JLabel(" "));

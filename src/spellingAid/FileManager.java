@@ -2,6 +2,7 @@ package spellingAid;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -41,6 +42,20 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public void updateAccuracyRatings(int lvl){
+		//TODO
+		try {
+			ArrayList<Double> accuracyRatings = new ArrayList<Double>(); 
+			BufferedReader inputFile = new BufferedReader(new FileReader(".accuracy"));
+			String line;
+			while((line = inputFile.readLine())!=null){
+				accuracyRatings.add(Double.parseDouble(line));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	//updates the word statistics in the "stats" file
 	private void updateStatistics(String word, String wordType) throws IOException {
@@ -49,6 +64,9 @@ public class FileManager {
 		//store "stats" contents into an ArrayList
 		String line;
 		while((line = inputFile.readLine())!=null){
+			if(line.charAt(0)=='%'){
+				break;
+			}
 			line=line.trim();
 			String[] stats = line.split("-");
 			statsList.addAll(Arrays.asList(stats));

@@ -22,6 +22,8 @@ public class SpellingAid {
 			outputFile.close();
 			outputFile = new PrintWriter(new FileWriter(".stats", true));
 			outputFile.close();
+			outputFile = new PrintWriter(new FileWriter(".accuracy", true));
+			outputFile.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

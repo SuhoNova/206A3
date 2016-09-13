@@ -12,16 +12,17 @@ public class WordList {
 	private int _level;
 	
 	public WordList(String quizType, int lvl){
+		_level = lvl;
 		if(quizType.equals("Normal")){
 			_source = "NZCER-spelling-lists.txt";
+			createNormalWordList();
 		}
 		else if(quizType.equals("Review")){
 			_source = ".failed";
+			createReviewWordList();
 		}
-		_level = lvl;
-		createWordList();
 	}
-	
+
 	public int size(){
 		return _wordList.size();
 	}
@@ -35,9 +36,8 @@ public class WordList {
 		return word;
 	}
 	
-
-	//creates the list of possible words that can be used for the quiz
-	private void createWordList(){
+	//creates the list of possible words that can be used for review quiz
+	private void createReviewWordList(){
 		try {
 			_wordList = new ArrayList<String>();
 			BufferedReader br = new BufferedReader(new FileReader(_source));
@@ -46,6 +46,34 @@ public class WordList {
 				word = word.trim();
 				if(word.length()>0){
 					_wordList.add(word);
+				}
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//creates the list of possible words that can be used for spelling quiz
+	private void createNormalWordList() {
+		try {
+			_wordList = new ArrayList<String>();
+			BufferedReader br = new BufferedReader(new FileReader(_source));
+			String word;
+			while((word = br.readLine())!= null){
+				if(word.equals("%Level "+_level)){
+					break;
+				}
+			}
+			while((word = br.readLine())!= null){
+				if(word.charAt(0)=='%'){
+					break;
+				}
+				else{
+					word = word.trim();
+					if(word.length()>0){
+						_wordList.add(word);
+					}
 				}
 			}
 			br.close();

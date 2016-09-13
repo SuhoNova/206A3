@@ -14,7 +14,8 @@ public class SpellingAidModel {
 	private String _word;
 	private int _nWordsCount=0;
 	private int _nAttempts=0;
-	
+	private boolean _isQuizEnded;
+
 
 	public void startQuiz(){
 		_wordList = new WordList(_quizType, _quizLevel);
@@ -25,7 +26,10 @@ public class SpellingAidModel {
 			_nWords = _quizLength;
 		}
 		_nWordsCount = 0;
-		continueQuiz();
+		_isQuizEnded = false;
+		if(_nWords > 0){
+			continueQuiz();
+		}
 	}
 
 	public void quizAttempt(String attempt) {
@@ -43,6 +47,7 @@ public class SpellingAidModel {
 				fm.handleQuizzedWords(_word, ".faulted");
 			}
 			if(_nWordsCount>=_nWords){
+				_isQuizEnded = true;
 			}
 			else{
 				continueQuiz();
@@ -59,23 +64,26 @@ public class SpellingAidModel {
 				_voice.speakIt("Incorrect");
 				System.out.println("Incorrect");
 				if(_nWordsCount>=_nWords){
+					_isQuizEnded = true;
 				}
 				else{
 					continueQuiz();
 				}
-
 			}
 		}
 	}
+	public boolean isQuizEnded() {
+		return _isQuizEnded;
+	}
+
 	private void continueQuiz(){
 		_nWordsCount++;
 		_word = _wordList.getWord();
 		_nAttempts = 0;
-		//_voice.speakIt("Spell word "+_nWordsCount+" of word "+_nWords);
 		_voice.speakIt("Please spell the word: "+_word+"...... "+_word);
 		System.out.println("Please spell the word: "+_word+"...... "+_word);
 	}
-	
+
 	public void setQuizLevel(int level) {
 		_quizLevel = level;
 		System.out.println(_quizLevel);
@@ -94,5 +102,7 @@ public class SpellingAidModel {
 	public int getWordCount(){
 		return _nWordsCount;
 	}
-
+	public int getWordListSize() {
+		return _nWords;
+	}
 }

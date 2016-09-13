@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 import spellingAid.SpellingAidModel;
 
@@ -18,23 +19,27 @@ public class SpellingAidController{
 	ActionListener _mainMenuListener = new MainMenuListener();
 	ActionListener _optionsListener = new OptionsListener();
 	ActionListener _quizListener = new QuizListener();
+	ActionListener _statsListener = new StatsListener();
 
 	public SpellingAidController(SpellingAidView view, SpellingAidModel model){
 		_view = view;
 		_model = model;
-
+		//add listeners for menu page
 		_view._startQuizButton.addActionListener(_mainMenuListener);
 		_view._quitButton.addActionListener(_mainMenuListener);
 		_view._viewStatsButton.addActionListener(_mainMenuListener);
 		_view._optionsButton.addActionListener(_mainMenuListener);
-		
+		//add listeners for options page
 		_view._optionsMenuButton.addActionListener(_optionsListener);
 		_view._quizType.addActionListener(_optionsListener);
 		_view._quizLevel.addActionListener(_optionsListener);
 		_view._voiceType.addActionListener(_optionsListener);
-		
+		//add listeners for quiz page
 		_view._quizMenuButton.addActionListener(_quizListener);
 		_view._input.addActionListener(_quizListener);
+		//add listeners for stats page
+		_view._statsMenuButton.addActionListener(_statsListener);
+		_view._clearStatsButton.addActionListener(_statsListener);
 	}
 
 	private class MainMenuListener implements ActionListener{
@@ -42,13 +47,16 @@ public class SpellingAidController{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == _view._startQuizButton){
 				_model.startQuiz();
-				_view._mainLayout.show(_view._mainPanel, "quizPanel");
-				_view._levelLabel.setText(_model.getQuizLevel()+"");
-				_view._wordCountLabel.setText(_model.getWordCount()+"");
-				
+				if(_model.getWordListSize()>0){
+					_view._mainLayout.show(_view._mainPanel, "quizPanel");
+					_view._wordCountLabel.setText(_model.getWordCount()+"/"+_model.getWordListSize());
+					_view._levelLabel.setText(_model.getQuizLevel()+"");
+				}else{
+					JOptionPane.showMessageDialog(null, "No words to test! Please change settings in the options menu");
+				}
 			}
 			else if(e.getSource() == _view._viewStatsButton){
-				//TODO
+				_view._mainLayout.show(_view._mainPanel, "statsPanel");
 			}
 			else if(e.getSource() == _view._optionsButton){
 				_view._mainLayout.show(_view._mainPanel, "optionsPanel");
@@ -66,6 +74,7 @@ public class SpellingAidController{
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 				String option = (String)cb.getSelectedItem();
 				_model.setQuizType(option);
+				JOptionPane.showMessageDialog(null, "No words to test! Please change settings in the options menu");
 			}
 			else if(e.getSource() == _view._quizLevel){
 				JComboBox<Integer> cb = (JComboBox<Integer>)e.getSource();
@@ -82,18 +91,33 @@ public class SpellingAidController{
 			}
 		}
 	}
-	
+
 	private class QuizListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == _view._input){
-				_model.quizAttempt(_view._input.getText());
-				_view._wordCountLabel.setText(_model.getWordCount()+"");
+				if(!_model.isQuizEnded()){
+					_model.quizAttempt(_view._input.getText());
+					_view._wordCountLabel.setText(_model.getWordCount()+"/"+_model.getWordListSize());
+				}
 				_view._input.setText("");
 			}
 			else if(e.getSource() == _view._quizMenuButton){
 				_view._mainLayout.show(_view._mainPanel, "mainMenuPanel");
 			}
 		}
+	}
+
+	private class StatsListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e){
+			if(e.getSource() == _view._statsMenuButton){
+				_view._mainLayout.show(_view._mainPanel, "mainMenuPanel");
+			}
+			else if(e.getSource() == _view._clearStatsButton){
+				//TODO
+			}
+		}
+
 	}
 }
