@@ -12,7 +12,32 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FileManager {
-	
+	public FileManager(){
+		//create necessary files on startup
+		PrintWriter outputFile;
+		try{
+			outputFile = new PrintWriter(new FileWriter(".mastered", true));
+			outputFile.close();
+			outputFile = new PrintWriter(new FileWriter(".faulted", true));
+			outputFile.close();
+			outputFile = new PrintWriter(new FileWriter(".failed", true));
+			outputFile.close();
+			outputFile = new PrintWriter(new FileWriter(".stats", true));
+			outputFile.close();
+			File f = new File(".accuracy");
+			if(!f.exists()){
+				outputFile = new PrintWriter(new FileWriter(".accuracy", true));
+				for(int i=0; i<11; i++){
+					outputFile.println("0-0");
+				}
+				outputFile.close();
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	//Performs the logic for updating the necessary files
 	public void handleQuizzedWords(String word, String fileName) {
 		try {
@@ -42,19 +67,65 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
-	
-	public void updateAccuracyRatings(int lvl){
-		//TODO
+
+	//updates the accuracy ratings
+	public void updateAccuracyRatings(int lvl, boolean isCorrect){
 		try {
-			ArrayList<Double> accuracyRatings = new ArrayList<Double>(); 
+			ArrayList<String> correctnessRatio = new ArrayList<String>(); 
 			BufferedReader inputFile = new BufferedReader(new FileReader(".accuracy"));
 			String line;
 			while((line = inputFile.readLine())!=null){
-				accuracyRatings.add(Double.parseDouble(line));
+				correctnessRatio.add(line);
 			}
+			inputFile.close();
+			//update the ratios
+			String[] ratio = correctnessRatio.get(lvl-1).split("-");
+			ratio[1] = Integer.parseInt(ratio[1])+1+""; //+1 to number of attempts
+			if(isCorrect){
+				ratio[0] = Integer.parseInt(ratio[0])+1+""; //+1 to number of correct attempts is the answer was correct
+			}
+			correctnessRatio.set(lvl-1, ratio[0]+"-"+ratio[1]);
+			//rewrite accuracy file
+			PrintWriter outputFile = new PrintWriter(new FileWriter(".accuracy", false));
+			for(String s: correctnessRatio){
+				outputFile.println(s);
+			}
+			outputFile.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public ArrayList<String> getAccuracyRating(){
+		ArrayList<String> correctnessRatio = new ArrayList<String>();
+		//read accuracy file
+		try { 
+			BufferedReader inputFile = new BufferedReader(new FileReader(".accuracy"));
+			String line;
+			while((line = inputFile.readLine())!=null){
+				correctnessRatio.add(line);
+			}
+			inputFile.close();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		//get accuracy ratings
+		ArrayList<String> accuracyRatings = new ArrayList<String>();
+		for(String r: correctnessRatio){
+			String[] ratio = r.split("-");
+			//if total attempts is 0, make value "-"
+			if(ratio[1].equals("0")){
+				accuracyRatings.add("-");
+			}
+
+			else{
+				//calculate accuracy rating
+				double rating = Double.parseDouble(ratio[0]+".0") / Double.parseDouble(ratio[1]+".0")*100;
+				rating = Math.round(rating*100.0)/100.0;
+				accuracyRatings.add(rating+"%");
+			}
+		}
+		return accuracyRatings;
 	}
 
 	//updates the word statistics in the "stats" file
@@ -132,5 +203,27 @@ public class FileManager {
 			outputFile.println(s);
 		}
 		outputFile.close();
+	}
+
+	//clears files
+	public void clearStats() {
+		PrintWriter outputFile;
+		try{
+			outputFile = new PrintWriter(new FileWriter(".mastered", false));
+			outputFile.close();
+			outputFile = new PrintWriter(new FileWriter(".faulted", false));
+			outputFile.close();
+			outputFile = new PrintWriter(new FileWriter(".failed", false));
+			outputFile.close();
+			outputFile = new PrintWriter(new FileWriter(".stats", false));
+			outputFile.close();
+			outputFile = new PrintWriter(new FileWriter(".accuracy", false));
+			for(int i=0; i<11; i++){
+				outputFile.println("0-0");
+			}
+			outputFile.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

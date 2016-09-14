@@ -1,7 +1,10 @@
 package spellingAid;
 
+import java.util.ArrayList;
+
 public class SpellingAidModel {
 	private Festival _voice = new Festival("American");
+	private FileManager _fm = new FileManager();
 	private int _quizLevel = 1;
 	private String _quizType = "Normal";
 	private WordList _wordList;
@@ -14,6 +17,7 @@ public class SpellingAidModel {
 	private String _word;
 	private int _nWordsCount=0;
 	private int _nAttempts=0;
+	private int _nCorrect=0;
 	private boolean _isQuizEnded;
 
 	//options logic
@@ -34,6 +38,7 @@ public class SpellingAidModel {
 	//Quiz logic
 	public void startQuiz(){
 		_wordList = new WordList(_quizType, _quizLevel);
+		_fm = new FileManager();
 		if(_wordList.size() < _quizLength){
 			_nWords = _wordList.size();
 		}
@@ -42,6 +47,7 @@ public class SpellingAidModel {
 		}
 		_nWordsCount = 0;
 		_isQuizEnded = false;
+		_nCorrect=0;
 		if(_nWords > 0){
 			continueQuiz();
 		}
@@ -51,15 +57,15 @@ public class SpellingAidModel {
 		_attempt = attempt;
 		_nAttempts++;
 		if(_attempt.equalsIgnoreCase(_word)){
+			_nCorrect++;
+			_fm.updateAccuracyRatings(_quizLevel, true);
 			_voice.speakIt("Correct");
 			System.out.println("Correct");
 			if(_nAttempts == 1){
-				FileManager fm = new FileManager();
-				fm.handleQuizzedWords(_word, ".mastered");
+				_fm.handleQuizzedWords(_word, ".mastered");
 			}
 			else{
-				FileManager fm = new FileManager();
-				fm.handleQuizzedWords(_word, ".faulted");
+				_fm.handleQuizzedWords(_word, ".faulted");
 			}
 			if(_nWordsCount>=_nWords){
 				_isQuizEnded = true;
@@ -69,13 +75,13 @@ public class SpellingAidModel {
 			}
 		}
 		else{
+			_fm.updateAccuracyRatings(_quizLevel, false);
 			if(_nAttempts < MAX_ATTEMPTS){
 				_voice.speakIt("Incorrect, try once more..... "+_word+"..... "+_word);
 				System.out.println("Incorrect, try once more..... "+_word+"..... "+_word);
 			}
 			else{
-				FileManager fm = new FileManager();
-				fm.handleQuizzedWords(_word, ".failed");
+				_fm.handleQuizzedWords(_word, ".failed");
 				_voice.speakIt("Incorrect");
 				System.out.println("Incorrect");
 				if(_nWordsCount>=_nWords){
@@ -111,5 +117,10 @@ public class SpellingAidModel {
 	
 	//------------------------------------------------------------------------------------------------------
 	//Stats logic
-	
+	public ArrayList<String> getAccuracyRating(){
+		return _fm.getAccuracyRating();
+	}
+	public void clearStats() {
+		_fm.clearStats();
+	}
 }

@@ -5,8 +5,10 @@ import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import spellingAid.SpellingAidModel;
@@ -41,6 +43,15 @@ public class SpellingAidController{
 		_view._statsMenuButton.addActionListener(_statsListener);
 		_view._clearStatsButton.addActionListener(_statsListener);
 	}
+	
+	private void setAccuracyRatings(){
+		ArrayList<String> accuracyRatings = _model.getAccuracyRating();
+		for(int i=0; i < _view._accuracyRatingQuizLabels.size();i++){
+			String rating = accuracyRatings.get(i);
+			_view._accuracyRatingQuizLabels.get(i).setText(rating);
+			_view._accuracyRatingOptionsLabels.get(i).setText(rating);
+		}
+	}
 
 	private class MainMenuListener implements ActionListener{
 		@Override
@@ -64,6 +75,7 @@ public class SpellingAidController{
 			else if(e.getSource() == _view._quitButton){
 				System.exit(0);
 			}
+			setAccuracyRatings();
 		}
 	}
 
@@ -91,6 +103,7 @@ public class SpellingAidController{
 			else if(e.getSource() == _view._optionsMenuButton){
 				_view._mainLayout.show(_view._mainPanel, "mainMenuPanel");
 			}
+			setAccuracyRatings();
 		}
 	}
 
@@ -107,6 +120,7 @@ public class SpellingAidController{
 			else if(e.getSource() == _view._quizMenuButton){
 				_view._mainLayout.show(_view._mainPanel, "mainMenuPanel");
 			}
+			setAccuracyRatings();
 		}
 	}
 
@@ -117,8 +131,9 @@ public class SpellingAidController{
 				_view._mainLayout.show(_view._mainPanel, "mainMenuPanel");
 			}
 			else if(e.getSource() == _view._clearStatsButton){
-				//TODO
+				_model.clearStats();
 			}
+			setAccuracyRatings();
 		}
 
 	}
