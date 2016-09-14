@@ -18,6 +18,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -51,13 +53,14 @@ public class SpellingAidView extends JFrame{
 	JComboBox<String> _voiceType = new JComboBox<String>();
 	
 	JButton _clearStatsButton = new JButton("Clear statistics");
+	JTextArea _statsTextArea = new JTextArea();
 	
 	public SpellingAidView(){
 		//create SpellingAid window
 		super("Spelling Aid");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
-		setSize(400,400);	
+		setSize(500,400);	
 		setLocationRelativeTo(null);
 		
 		_mainPanel.setLayout(_mainLayout);
@@ -70,7 +73,7 @@ public class SpellingAidView extends JFrame{
 		this.add(_mainPanel);
 		_mainLayout.show(_mainPanel, "mainMenuPanel");
 		setResizable(false);
-		pack();
+		//pack();
 	}
 	
 	//sets up the main panel
@@ -83,8 +86,12 @@ public class SpellingAidView extends JFrame{
 	}
 	
 	private void setupStatsPanel() {
+		_statsTextArea.setEditable(false);
+		
 		JPanel infoPanel = new JPanel(new GridLayout(1,2));
 		JPanel accuracyPanel = new JPanel(new GridLayout(12,2));
+		JPanel statsPanel = new JPanel(new BorderLayout());
+		JScrollPane statsPane = new JScrollPane(_statsTextArea);
 		
 		accuracyPanel.add(new JLabel("Level"));
 		accuracyPanel.add(new JLabel("Accuracy"));
@@ -93,7 +100,10 @@ public class SpellingAidView extends JFrame{
 			accuracyPanel.add(_accuracyRatingOptionsLabels.get(i));
 		}
 		
-		infoPanel.add(new JTextField());
+		statsPanel.add(new JLabel("Word stats"), BorderLayout.NORTH);
+		statsPanel.add(statsPane, BorderLayout.CENTER);
+		
+		infoPanel.add(statsPanel);
 		infoPanel.add(accuracyPanel);
 		
 		_statsPanel.add(infoPanel, BorderLayout.CENTER);

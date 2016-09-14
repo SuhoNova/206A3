@@ -11,17 +11,19 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import spellingAid.FileManager;
 import spellingAid.SpellingAidModel;
 
 
 public class SpellingAidController{
 	private SpellingAidView _view;
 	private SpellingAidModel _model;
+	private FileManager _fm = new FileManager();
 
-	ActionListener _mainMenuListener = new MainMenuListener();
-	ActionListener _optionsListener = new OptionsListener();
-	ActionListener _quizListener = new QuizListener();
-	ActionListener _statsListener = new StatsListener();
+	private ActionListener _mainMenuListener = new MainMenuListener();
+	private ActionListener _optionsListener = new OptionsListener();
+	private ActionListener _quizListener = new QuizListener();
+	private ActionListener _statsListener = new StatsListener();
 
 	public SpellingAidController(SpellingAidView view, SpellingAidModel model){
 		_view = view;
@@ -45,7 +47,7 @@ public class SpellingAidController{
 	}
 	
 	private void setAccuracyRatings(){
-		ArrayList<String> accuracyRatings = _model.getAccuracyRating();
+		ArrayList<String> accuracyRatings = _fm.getAccuracyRating();
 		for(int i=0; i < _view._accuracyRatingQuizLabels.size();i++){
 			String rating = accuracyRatings.get(i);
 			_view._accuracyRatingQuizLabels.get(i).setText(rating);
@@ -65,8 +67,12 @@ public class SpellingAidController{
 				}else{
 					JOptionPane.showMessageDialog(null, "No words to test! Please change settings in the options menu");
 				}
+				if(_model.getQuizType().equals("Review")){
+					_view._levelLabel.setText("Not available");
+				}
 			}
 			else if(e.getSource() == _view._viewStatsButton){
+				_view._statsTextArea.setText(_fm.getStats());
 				_view._mainLayout.show(_view._mainPanel, "statsPanel");
 			}
 			else if(e.getSource() == _view._optionsButton){
@@ -87,7 +93,10 @@ public class SpellingAidController{
 				String option = (String)cb.getSelectedItem();
 				_model.setQuizType(option);
 				if(option.equals("Review")){
-					JOptionPane.showMessageDialog(null, "Review quiz selected. Quiz level option disabled");
+					_view._quizLevel.setVisible(false);
+				}
+				else{
+					_view._quizLevel.setVisible(true);
 				}
 			}
 			else if(e.getSource() == _view._quizLevel){
@@ -131,8 +140,9 @@ public class SpellingAidController{
 				_view._mainLayout.show(_view._mainPanel, "mainMenuPanel");
 			}
 			else if(e.getSource() == _view._clearStatsButton){
-				_model.clearStats();
+				_fm.clearStats();
 			}
+			_view._statsTextArea.setText(_fm.getStats());
 			setAccuracyRatings();
 		}
 

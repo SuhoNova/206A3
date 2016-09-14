@@ -226,4 +226,22 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
+
+	public String getStats() {
+		String stats = "";
+		try {
+			stats+="WORD STATISTICS (in order of attempt)\n";
+			stats+="----------------------------------------------\n";
+			stats+="word-mastered-faulted-failed\n";
+			stats+="----------------------------------------------\n";
+			BufferedReader inputFile = new BufferedReader(new FileReader(".stats"));
+			String line;
+			while((line=inputFile.readLine())!= null){
+				stats+=line+"\n";
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return stats;
+	}
 }

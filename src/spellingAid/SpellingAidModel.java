@@ -114,13 +114,7 @@ public class SpellingAidModel {
 	public int getWordListSize() {
 		return _nWords;
 	}
-	
-	//------------------------------------------------------------------------------------------------------
-	//Stats logic
-	public ArrayList<String> getAccuracyRating(){
-		return _fm.getAccuracyRating();
-	}
-	public void clearStats() {
-		_fm.clearStats();
+	public String getQuizType(){
+		return _quizType;
 	}
 }
