@@ -46,6 +46,9 @@ public class SpellingAidController{
 		_view._clearStatsButton.addActionListener(_statsListener);
 	}
 	
+	/**
+	 * Sets the accuracy rating labels
+	 */
 	private void setAccuracyRatings(){
 		ArrayList<String> accuracyRatings = _fm.getAccuracyRating();
 		for(int i=0; i < _view._accuracyRatingQuizLabels.size();i++){
@@ -54,10 +57,15 @@ public class SpellingAidController{
 			_view._accuracyRatingOptionsLabels.get(i).setText(rating);
 		}
 	}
-
+	/**
+	 * ActionListener for the menu page
+	 * @author gillon
+	 *
+	 */
 	private class MainMenuListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//logic for clicking startQuizButton
 			if(e.getSource() == _view._startQuizButton){
 				_model.startQuiz();
 				if(_model.getWordListSize()>0){
@@ -71,23 +79,31 @@ public class SpellingAidController{
 					_view._levelLabel.setText("Not available");
 				}
 			}
+			//Logic for clicking view stats button
 			else if(e.getSource() == _view._viewStatsButton){
 				_view._statsTextArea.setText(_fm.getStats());
 				_view._mainLayout.show(_view._mainPanel, "statsPanel");
 			}
+			//Logic for clicking options button
 			else if(e.getSource() == _view._optionsButton){
 				_view._mainLayout.show(_view._mainPanel, "optionsPanel");
 			}
+			//Logic for clicking the quit button
 			else if(e.getSource() == _view._quitButton){
 				System.exit(0);
 			}
-			setAccuracyRatings();
+			setAccuracyRatings(); //update accuracy ratings
 		}
 	}
-
+	/**
+	 * ActionListener for the options page
+	 * @author gillon
+	 *
+	 */
 	private class OptionsListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//logic for clicking quiz type combo box
 			if(e.getSource() == _view._quizType){
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 				String option = (String)cb.getSelectedItem();
@@ -99,26 +115,34 @@ public class SpellingAidController{
 					_view._quizLevel.setVisible(true);
 				}
 			}
+			//logic for clicking quizLevel combobox
 			else if(e.getSource() == _view._quizLevel){
 				JComboBox<Integer> cb = (JComboBox<Integer>)e.getSource();
 				Integer option = (Integer)cb.getSelectedItem();
 				_model.setQuizLevel(option);
 			}
+			//Logic for clicking voice type combobox
 			else if(e.getSource() == _view._voiceType){
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 				String option = (String)cb.getSelectedItem();
 				_model.setVoiceType(option);
 			}
+			//logic for clicking menu button
 			else if(e.getSource() == _view._optionsMenuButton){
 				_view._mainLayout.show(_view._mainPanel, "mainMenuPanel");
 			}
-			setAccuracyRatings();
+			setAccuracyRatings(); //update accuracy ratings
 		}
 	}
-
+	/**
+	 * ActionListener for the quiz page
+	 * @author gillon
+	 *
+	 */
 	private class QuizListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//Logic for pressing enter on the input textfield
 			if(e.getSource() == _view._input){
 				if(!_model.isQuizEnded()){
 					_model.quizAttempt(_view._input.getText());
@@ -126,24 +150,32 @@ public class SpellingAidController{
 				}
 				_view._input.setText("");
 			}
+			//logic for clicking the end quiz button
 			else if(e.getSource() == _view._quizMenuButton){
 				_view._mainLayout.show(_view._mainPanel, "mainMenuPanel");
 			}
-			setAccuracyRatings();
+			setAccuracyRatings(); //update accuracy ratings
 		}
 	}
 
+	/**
+	 * ActionListener fo the stats page
+	 * @author gillon
+	 *
+	 */
 	private class StatsListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e){
+			//logic for clicking the menu button
 			if(e.getSource() == _view._statsMenuButton){
 				_view._mainLayout.show(_view._mainPanel, "mainMenuPanel");
 			}
+			//logic for clicking the clear stats button
 			else if(e.getSource() == _view._clearStatsButton){
 				_fm.clearStats();
 			}
-			_view._statsTextArea.setText(_fm.getStats());
-			setAccuracyRatings();
+			_view._statsTextArea.setText(_fm.getStats()); //update the stats text area
+			setAccuracyRatings();//update accuracy ratings
 		}
 
 	}

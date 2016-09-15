@@ -38,38 +38,46 @@ public class FileManager {
 		}
 	}
 
-	//Performs the logic for updating the necessary files
-	public void handleQuizzedWords(String word, String fileName) {
+	/**
+	 * update the word with it's specified word type (".mastered",".faulted",".failed") in the necessary files
+	 * @param word
+	 * @param wordType
+	 */
+	public void handleQuizzedWords(String word, String wordType) {
 		try {
 			//appends the word to the necessary file ("mastered", "faulted", "failed") 
-			if(!isInFile(word,fileName)){
-				PrintWriter file = new PrintWriter(new FileWriter(fileName, true));
+			if(!isInFile(word,wordType)){
+				PrintWriter file = new PrintWriter(new FileWriter(wordType, true));
 				file.println(word);
 				file.close();
 			}
 			//removes the word of the necessary file ("mastered","faulted","failed")
-			if(fileName.equals(".mastered")){
+			if(wordType.equals(".mastered")){
 				updateQuizzedWords(word, ".failed");
 				updateQuizzedWords(word, ".faulted");
 			}
-			else if(fileName.equals(".failed")){
+			else if(wordType.equals(".failed")){
 				updateQuizzedWords(word, ".mastered");
 				updateQuizzedWords(word, ".faulted");
 			}
-			else if(fileName.equals(".faulted")){
+			else if(wordType.equals(".faulted")){
 				updateQuizzedWords(word, ".mastered");
 				updateQuizzedWords(word, ".failed");
 			}
 
 			//update "stats" file
-			updateStatistics(word, fileName);
+			updateStatistics(word, wordType);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	//updates the accuracy ratings
-	public void updateAccuracyRatings(int lvl, boolean isCorrect){
+	/**
+	 * Update the accuracy rating of the specified level depending if whether or not the attempt was correct
+	 * @param level
+	 * @param isCorrect
+	 */
+	public void updateAccuracyRatings(int level, boolean isCorrect){
 		try {
 			ArrayList<String> correctnessRatio = new ArrayList<String>(); 
 			BufferedReader inputFile = new BufferedReader(new FileReader(".accuracy"));
@@ -79,12 +87,12 @@ public class FileManager {
 			}
 			inputFile.close();
 			//update the ratios
-			String[] ratio = correctnessRatio.get(lvl-1).split("-");
+			String[] ratio = correctnessRatio.get(level-1).split("-");
 			ratio[1] = Integer.parseInt(ratio[1])+1+""; //+1 to number of attempts
 			if(isCorrect){
 				ratio[0] = Integer.parseInt(ratio[0])+1+""; //+1 to number of correct attempts is the answer was correct
 			}
-			correctnessRatio.set(lvl-1, ratio[0]+"-"+ratio[1]);
+			correctnessRatio.set(level-1, ratio[0]+"-"+ratio[1]);
 			//rewrite accuracy file
 			PrintWriter outputFile = new PrintWriter(new FileWriter(".accuracy", false));
 			for(String s: correctnessRatio){
@@ -96,6 +104,10 @@ public class FileManager {
 		}
 	}
 
+	/**
+	 * Returns the accuracy ratings of all the quiz levels
+	 * @return
+	 */
 	public ArrayList<String> getAccuracyRating(){
 		ArrayList<String> correctnessRatio = new ArrayList<String>();
 		//read accuracy file
@@ -128,7 +140,12 @@ public class FileManager {
 		return accuracyRatings;
 	}
 
-	//updates the word statistics in the "stats" file
+	/**
+	 * Updates the specified word and word type in the stats file
+	 * @param word
+	 * @param wordType
+	 * @throws IOException
+	 */
 	private void updateStatistics(String word, String wordType) throws IOException {
 		ArrayList<String> statsList = new ArrayList<String>();
 		BufferedReader inputFile = new BufferedReader(new FileReader(".stats"));
@@ -173,7 +190,13 @@ public class FileManager {
 		}
 		outputFile.close();
 	}
-	//check is the String word is in the specified file
+	/**
+	 * Checks if the word is a line in the specified source file
+	 * @param word
+	 * @param source
+	 * @return
+	 * @throws IOException
+	 */
 	private boolean isInFile(String word, String source) throws IOException{
 		ArrayList<String> wordsList = new ArrayList<String>();
 		BufferedReader inputFile = new BufferedReader(new FileReader(source));
@@ -186,7 +209,12 @@ public class FileManager {
 		return wordsList.contains(word);
 	}
 
-	//removes the specified word from the file
+	/**
+	 * Removes a line in a file that is the specified word 
+	 * @param word
+	 * @param fileToUpdate
+	 * @throws IOException
+	 */
 	private void updateQuizzedWords(String word, String fileToUpdate) throws IOException{
 		ArrayList<String> tempWordsList = new ArrayList<String>();
 		BufferedReader inputFile = new BufferedReader(new FileReader(fileToUpdate));
@@ -205,7 +233,9 @@ public class FileManager {
 		outputFile.close();
 	}
 
-	//clears files
+	/**
+	 * Clears all files that store quiz statistics
+	 */
 	public void clearStats() {
 		PrintWriter outputFile;
 		try{
@@ -227,10 +257,14 @@ public class FileManager {
 		}
 	}
 
+	/**
+	 * Returns the statistics of all attempted words in the order of attempt
+	 * @return
+	 */
 	public String getStats() {
 		String stats = "";
 		try {
-			stats+="WORD STATISTICS (in order of attempt)\n";
+			stats+="(in order of attempt)\n";
 			stats+="----------------------------------------------\n";
 			stats+="word-mastered-faulted-failed\n";
 			stats+="----------------------------------------------\n";
