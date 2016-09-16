@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import spellingAid.FileManager;
 import spellingAid.SpellingAidModel;
+import spellingAid.VideoReward;
 
 
 public class SpellingAidController{
@@ -42,11 +43,14 @@ public class SpellingAidController{
 		//add listeners for quiz page
 		_view._quizMenuButton.addActionListener(_quizListener);
 		_view._input.addActionListener(_quizListener);
+		_view._currentLevelButton.addActionListener(_quizListener);
+		_view._nextLevelButton.addActionListener(_quizListener);
+		_view._playVideoButton.addActionListener(_quizListener);
 		//add listeners for stats page
 		_view._statsMenuButton.addActionListener(_statsListener);
 		_view._clearStatsButton.addActionListener(_statsListener);
 	}
-	
+
 	/**
 	 * Sets the accuracy rating labels
 	 */
@@ -156,16 +160,44 @@ public class SpellingAidController{
 			else if(e.getSource() == _view._quizMenuButton){
 				_view._mainLayout.show(_view._mainPanel, "mainMenuPanel");
 			}
-			
-			
+
+			//end of quiz
 			if(_model.isQuizEnded()){
 				_view._quizEndPanel.setVisible(true);
 				if(_model.getCorrectAttempts() >= 9){
-					_view._quizEndMessageLabel.setText("Quiz Passed. Go to next level?");
+					_view._quizEndMessageLabel.setText("Level mastered! Go to next level?");
+					_view._currentLevelButton.setText("Same Level");
 					_view._nextLevelButton.setVisible(true);
 					_view._playVideoButton.setVisible(true);
 				}
-				_view._quizEndMessageLabel.setText("Quiz failed. Start new quiz?");
+				else{
+					_view._quizEndMessageLabel.setText("Start new quiz?");
+					_view._currentLevelButton.setText("New quiz");
+				}
+				//listener logic for end quiz buttons
+				if(e.getSource() == _view._currentLevelButton){
+					_model.startQuiz();
+					_view._quizEndPanel.setVisible(false);
+					_view._nextLevelButton.setVisible(false);
+					_view._playVideoButton.setVisible(false);
+				}
+				else if(e.getSource() == _view._nextLevelButton){
+					int lvl = _model.getQuizLevel();
+					if(lvl+1 > 11){
+						JOptionPane.showMessageDialog(null, "No words to test! Please change settings in the options menu");
+					}
+					else{
+						_model.setQuizLevel(lvl+1);
+						_model.startQuiz();
+						_view._quizEndPanel.setVisible(false);
+						_view._nextLevelButton.setVisible(false);
+						_view._playVideoButton.setVisible(false);
+					}
+				}
+				if(e.getSource() == _view._playVideoButton){
+					VideoReward vr = new VideoReward("");
+				}
+
 			}
 			setAccuracyRatings(); //update accuracy ratings
 		}

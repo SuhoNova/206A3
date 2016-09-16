@@ -1,7 +1,5 @@
 package spellingAid;
 
-import java.util.ArrayList;
-
 public class SpellingAidModel {
 	private Festival _voice = new Festival("American");
 	private FileManager _fm = new FileManager();
@@ -11,7 +9,6 @@ public class SpellingAidModel {
 
 	private final int MAX_ATTEMPTS = 2;
 	private int _quizLength = 10;
-	private final static int _DEFAULT_QUIZ_LENGTH =10;
 	private int _nWords;
 	private String _attempt;
 	private String _word;
