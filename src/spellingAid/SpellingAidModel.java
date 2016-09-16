@@ -16,7 +16,6 @@ public class SpellingAidModel {
 	private int _nAttempts=0;
 	private int _nCorrect=0;
 	private boolean _isQuizEnded;
-	private int _nTotalAttempts =0;
 
 	//options logic
 	/**
@@ -62,7 +61,6 @@ public class SpellingAidModel {
 		}
 		//set quiz variables
 		_nWordsCount = 0;
-		_nTotalAttempts = 0;
 		_isQuizEnded = false;
 		_nCorrect=0;
 		if(_nWords > 0){
@@ -77,9 +75,9 @@ public class SpellingAidModel {
 	public void quizAttempt(String attempt) {
 		_attempt = attempt;
 		_nAttempts++;
-		_nTotalAttempts++;
 		//if attempt is correct
 		if(_attempt.equalsIgnoreCase(_word)){
+			
 			_nCorrect++;
 			if(_quizType.equals("Normal")){
 				_fm.updateAccuracyRatings(_quizLevel, true);
@@ -105,8 +103,11 @@ public class SpellingAidModel {
 				_fm.updateAccuracyRatings(_quizLevel, false);
 			}
 			if(_nAttempts < MAX_ATTEMPTS){
-				_voice.speakIt("Incorrect, try once more..... "+_word+"..... "+_word);
-				System.out.println("Incorrect, try once more..... "+_word+"..... "+_word);
+				_voice.speakIt("Incorrect, try once more");
+				//ice.speakIt(" try once more ");//+_word+" ..... "+_word);
+				_voice.speakWord(_word);
+				
+				System.out.println("Incorrect, try once more ..... "+_word+" ..... "+_word);
 			}
 			else{
 				_fm.handleQuizzedWords(_word, ".failed");
@@ -135,7 +136,8 @@ public class SpellingAidModel {
 		_nWordsCount++;
 		_word = _wordList.getWord(); //get new word
 		_nAttempts = 0;
-		_voice.speakIt("Please spell the word: "+_word+"...... "+_word);
+		_voice.speakIt("Please spell the word: ");
+		_voice.speakWord(_word);
 		System.out.println("Please spell the word: "+_word+"...... "+_word);
 	}
 	/**
@@ -172,14 +174,5 @@ public class SpellingAidModel {
 	 */
 	public int getCorrectAttempts(){
 		return _nCorrect;
-	}
-	/**
-	 * Return the spelling accuracy of the current quiz session
-	 * @return
-	 */
-	public double getSessionAccuracy(){
-		double rating = (_nCorrect+0.0) / (_nTotalAttempts+0.0)*100;
-		rating = Math.round(rating*100.0)/100.0;
-		return rating;
 	}
 }

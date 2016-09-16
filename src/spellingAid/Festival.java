@@ -25,9 +25,9 @@ public class Festival{
 	public void speakWord(String word) {
 		_apostropheExist = doesApostropheExist(word);
 		if(_apostropheExist){
-			word = "How do you spell " + word + "? The one with an apostrophe.";
+			word =  word + " The one with an apostrophe.";
 		} else {
-			word = "How do you spell " + word + "? The one without an apostrophe.";
+			word = word;
 		}
 		speakIt(word);
 	}

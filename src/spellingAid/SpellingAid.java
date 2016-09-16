@@ -15,6 +15,7 @@ public class SpellingAid {
 		SpellingAidView view = new SpellingAidView();
 		SpellingAidModel model = new SpellingAidModel();
 		SpellingAidController controller = new SpellingAidController(view, model); 
+		//VideoReward vr = new VideoReward();
 	}
 	
 }
