@@ -175,4 +175,10 @@ public class SpellingAidModel {
 	public int getCorrectAttempts(){
 		return _nCorrect;
 	}
+	/**
+	 * 
+	 */
+	public void hearWord(){
+		_voice.speakWord(_word);
+	}
 }

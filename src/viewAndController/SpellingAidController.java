@@ -46,6 +46,7 @@ public class SpellingAidController{
 		_view._currentLevelButton.addActionListener(_quizListener);
 		_view._nextLevelButton.addActionListener(_quizListener);
 		_view._playVideoButton.addActionListener(_quizListener);
+		_view._hearWordButton.addActionListener(_quizListener);
 		//add listeners for stats page
 		_view._statsMenuButton.addActionListener(_statsListener);
 		_view._clearStatsButton.addActionListener(_statsListener);
@@ -159,6 +160,10 @@ public class SpellingAidController{
 			//logic for clicking the end quiz button
 			else if(e.getSource() == _view._quizMenuButton){
 				_view._mainLayout.show(_view._mainPanel, "mainMenuPanel");
+			}
+			//logic for clicking hear word button
+			else if(e.getSource() == _view._hearWordButton){
+				_model.hearWord();
 			}
 
 			//end of quiz
