@@ -77,6 +77,7 @@ public class SpellingAidModel {
 		_nAttempts++;
 		//if attempt is correct
 		if(_attempt.equalsIgnoreCase(_word)){
+			
 			_nCorrect++;
 			if(_quizType.equals("Normal")){
 				_fm.updateAccuracyRatings(_quizLevel, true);
@@ -102,8 +103,11 @@ public class SpellingAidModel {
 				_fm.updateAccuracyRatings(_quizLevel, false);
 			}
 			if(_nAttempts < MAX_ATTEMPTS){
-				_voice.speakIt("Incorrect, try once more..... "+_word+"..... "+_word);
-				System.out.println("Incorrect, try once more..... "+_word+"..... "+_word);
+				_voice.speakIt("Incorrect, try once more");
+				//ice.speakIt(" try once more ");//+_word+" ..... "+_word);
+				_voice.speakWord(_word);
+				
+				System.out.println("Incorrect, try once more ..... "+_word+" ..... "+_word);
 			}
 			else{
 				_fm.handleQuizzedWords(_word, ".failed");
@@ -132,7 +136,8 @@ public class SpellingAidModel {
 		_nWordsCount++;
 		_word = _wordList.getWord(); //get new word
 		_nAttempts = 0;
-		_voice.speakIt("Please spell the word: "+_word+"...... "+_word);
+		_voice.speakIt("Please spell the word: ");
+		_voice.speakWord(_word);
 		System.out.println("Please spell the word: "+_word+"...... "+_word);
 	}
 	/**

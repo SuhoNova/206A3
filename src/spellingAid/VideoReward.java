@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -38,10 +39,17 @@ public class VideoReward extends JFrame implements ActionListener{
 	private JLabel _label;
 	private Timer _timer;
 	
+	private JPanel _videoModify;
+	private JButton _flipVideo;
+	
+	
 	
 	private long _videoLength;
 	private int _timeSkip = 5000;
-	
+	public VideoReward(){
+		this("big_buck_bunny_1_minute.avi");
+	}
+
 	public VideoReward(String filename){	
 		super("Video Reward");		
 		setLibUp();
@@ -60,13 +68,26 @@ public class VideoReward extends JFrame implements ActionListener{
 		/**
 		 * CHANGE THIS TO GET VIDEO YOU WANT
 		 */
-		//_filename = filename;
-		_filename = "big_buck_bunny_1_minute.avi";
-		_video.playMedia(_filename);
+		_filename = filename;
+		//_filename = "big_buck_bunny_1_minute.avi";
+		//_video.playMedia(_filename);
 	}
 	
 	public void actionPerformed(ActionEvent event) {
-		if(event.getSource() == _stopButton){
+		if(event.getSource() == _videoModify){
+			String command = "ffmpeg -i "+_filename+" -vf negate,vflip out.avi";
+			System.out.println(command);
+			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
+			try {
+				Process process = pb.start();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			_filename = "out.avi";
+			System.out.println(_filename);
+			addMedia();
+		}else if(event.getSource() == _stopButton){
 			_video.stop();
 			this.dispose();
 		} else if (event.getSource() == _pauseButton){
@@ -87,7 +108,7 @@ public class VideoReward extends JFrame implements ActionListener{
 			} else if(_pauseButton.getText().equals("Unmute")){
 				_pauseButton.setText("Mute");
 			}
-		} else if (event.getSource() == _timer){
+		} /**else if (event.getSource() == _timer){
 			long timeSeconds = (long)(_video.getTime()/1000.0);
 			_videoLength = (long)(_video.getLength()/1000.0);
 			_label.setText("" + timeSeconds + " / " + _videoLength + " seconds");
@@ -95,7 +116,7 @@ public class VideoReward extends JFrame implements ActionListener{
 				_video.stop();
 				this.dispose();
 			}
-		}
+		}*/
 	}
 	
 	public void setLibUp(){
@@ -109,6 +130,7 @@ public class VideoReward extends JFrame implements ActionListener{
 		_mainPanel = new JPanel(new BorderLayout());
 		_panel = new JPanel(new GridLayout(1,4));
 		_timePanel = new JPanel(new GridLayout(1,2));
+		_videoModify = new JPanel(new GridLayout(1,1));
 		
 		_pauseButton = new JButton("Pause");
 		_stopButton = new JButton("Exit Video");
@@ -124,20 +146,30 @@ public class VideoReward extends JFrame implements ActionListener{
 		_panel.add(_mute);
 		_panel.add(_stopButton);
 		
+		_flipVideo = new JButton("Flip Video");
+		
+		_videoModify.add(_flipVideo);
+		
 		_timePanel.add(_label);
 		
 		setContentPane(_mainPanel);
 		
-		_mainPanel.add(_mediaPlayerComponent, BorderLayout.CENTER);
+		_mainPanel.add(_videoModify, BorderLayout.CENTER);
 		_mainPanel.add(_timePanel, BorderLayout.NORTH);
 		_mainPanel.add(_panel, BorderLayout.SOUTH);
 	}
+	public void addMedia(){
+		_mainPanel.add(_mediaPlayerComponent, BorderLayout.CENTER);
+		_video.playMedia(_filename);
+	}
+	
 	public void setActionListenerToButtons(){
 		_stopButton.addActionListener(this);
         _pauseButton.addActionListener(this);
         _jumpForward.addActionListener(this);
         _jumpBackward.addActionListener(this);
         _mute.addActionListener(this);
+        _flipVideo.addActionListener(this);
 	}
 	
 }
