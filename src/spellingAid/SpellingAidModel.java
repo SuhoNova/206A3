@@ -166,4 +166,11 @@ public class SpellingAidModel {
 	public String getQuizType(){
 		return _quizType;
 	}
+	/**
+	 * Returns the number of correct attempts
+	 * @return
+	 */
+	public int getCorrectAttempts(){
+		return _nCorrect;
+	}
 }

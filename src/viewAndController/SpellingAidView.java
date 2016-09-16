@@ -1,6 +1,7 @@
 package viewAndController;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridLayout;
@@ -13,6 +14,7 @@ import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -30,28 +32,37 @@ public class SpellingAidView extends JFrame{
 	private JPanel _quizPanel = new JPanel(new BorderLayout());
 	private JPanel _statsPanel = new JPanel(new BorderLayout());
 	private JPanel _optionsPanel = new JPanel(new BorderLayout());
-	
+
 	JPanel _mainPanel = new JPanel();
 	CardLayout _mainLayout = new CardLayout();
 	JButton _startQuizButton = new JButton("Start New Quiz");
 	JButton _viewStatsButton = new JButton("View Statistics");
 	JButton _optionsButton = new JButton("Options");
 	JButton _quitButton = new JButton("Quit");
-
-	JButton _quizMenuButton = new JButton("End Quiz");
-	JButton _statsMenuButton = new JButton("Back to menu");
-	JButton _optionsMenuButton = new JButton("Back to menu");
 	
+	JPanel _quizSessionPanel = new JPanel(new GridLayout(4,1));
+	JPanel _quizEndPanel = new JPanel(new GridLayout(3,1));
+	JButton _hearWordButton = new JButton("Hear word");
+	JButton _spellWordButton = new JButton("Hear Spelling");
+	JButton _quizMenuButton = new JButton("Back to menu");
+	JTextField _input= new JTextField();
+	JLabel _quizEndMessageLabel = new JLabel("");
+	JLabel _sessionCorrectnessLabel = new JLabel("");
+	JLabel _sessionAccuracyLabel = new JLabel("");
+	JButton _currentLevelButton = new JButton("Same Level");
+	JButton _nextLevelButton = new JButton("Next Level");
+	JButton _playVideoButton = new JButton("Video Reward");
+	
+	JButton _optionsMenuButton = new JButton("Back to menu");
 	JLabel _wordCountLabel = new JLabel(" ");
 	JLabel _levelLabel = new JLabel(" ");
 	ArrayList<JLabel> _accuracyRatingQuizLabels = new ArrayList<JLabel>();
-	ArrayList<JLabel> _accuracyRatingOptionsLabels = new ArrayList<JLabel>();
-	JTextField _input= new JTextField();
-	
+	ArrayList<JLabel> _accuracyRatingStatsLabels = new ArrayList<JLabel>();
 	JComboBox<String> _quizType = new JComboBox<String>();
 	JComboBox<Integer> _quizLevel = new JComboBox<Integer>();
 	JComboBox<String> _voiceType = new JComboBox<String>();
 	
+	JButton _statsMenuButton = new JButton("Back to menu");
 	JButton _clearStatsButton = new JButton("Clear statistics");
 	JTextArea _statsTextArea = new JTextArea();
 	
@@ -60,7 +71,7 @@ public class SpellingAidView extends JFrame{
 		super("Spelling Aid");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
-		setSize(500,400);	
+		setSize(500,350);	
 		setLocationRelativeTo(null);
 		
 		_mainPanel.setLayout(_mainLayout);
@@ -97,8 +108,9 @@ public class SpellingAidView extends JFrame{
 		accuracyPanel.add(new JLabel("Accuracy"));
 		for(int i = 0; i < 11; i++){
 			accuracyPanel.add(new JLabel(i+1+":"));
-			accuracyPanel.add(_accuracyRatingOptionsLabels.get(i));
+			accuracyPanel.add(_accuracyRatingStatsLabels.get(i));
 		}
+		accuracyPanel.setBorder(BorderFactory.createTitledBorder("Spelling Accuracy"));
 		
 		statsPanel.add(new JLabel("Word stats"), BorderLayout.NORTH);
 		statsPanel.add(statsPane, BorderLayout.CENTER);
@@ -122,31 +134,62 @@ public class SpellingAidView extends JFrame{
 	private void setupAccuracyRatings(){
 		for(int i=0; i < 11; i++){
 			_accuracyRatingQuizLabels.add(new JLabel(" "));
-			_accuracyRatingOptionsLabels.add(new JLabel(" "));
+			_accuracyRatingStatsLabels.add(new JLabel(" "));
 		}
 	}
 
 	private void setupQuizPanel(){
-		JPanel quizInfo = new JPanel(new GridLayout(15,2));
-		quizInfo.add(new JLabel("Level"));
-		quizInfo.add(new JLabel("Accuracy"));
+		_spellWordButton.setVisible(false);
 		
+		JPanel quizGridPanel = new JPanel(new GridLayout(1,2));
+		JPanel quizInfoPanel = new JPanel(new GridLayout(12,2));
+		JPanel quizIOPanel = new JPanel(new GridLayout(2,1));
+		JPanel currentSessionInfoPanel = new JPanel(new GridLayout(2,2));
+		JPanel speakButtonsPanel = new JPanel(new GridLayout(1,2));
+		JPanel quizEndInfoPanel = new JPanel(new GridLayout(2,2));
+		JPanel quizEndButtonsPanel = new JPanel(new GridLayout(3,1));
+		
+		quizInfoPanel.add(new JLabel("Level"));
+		quizInfoPanel.add(new JLabel("Accuracy"));
 		for(int i = 0; i < 11; i++){
-			quizInfo.add(new JLabel(i+1+":"));
-			quizInfo.add(_accuracyRatingQuizLabels.get(i));
+			quizInfoPanel.add(new JLabel(i+1+":"));
+			quizInfoPanel.add(_accuracyRatingQuizLabels.get(i));
 		}
+		quizInfoPanel.setBorder(BorderFactory.createTitledBorder("Spelling Accuracy"));
 		
-		quizInfo.add(new JLabel(" "));
-		quizInfo.add(new JLabel(" "));
+		speakButtonsPanel.add(_hearWordButton);
+		speakButtonsPanel.add(_spellWordButton);
+		currentSessionInfoPanel.add(new JLabel("Level: "));
+		currentSessionInfoPanel.add(_levelLabel);
+		currentSessionInfoPanel.add(new JLabel("Test progress: "));
+		currentSessionInfoPanel.add(_wordCountLabel);
+		_quizSessionPanel.add(currentSessionInfoPanel);
+		_quizSessionPanel.add(new JLabel("Enter Spelling:"));
+		_quizSessionPanel.add(_input);
+		_quizSessionPanel.add(speakButtonsPanel);
+		_quizSessionPanel.setBorder(BorderFactory.createTitledBorder("Normal Quiz"));
 		
-		quizInfo.add(new JLabel("Current Quiz Level: "));
-		quizInfo.add(_levelLabel);
-		quizInfo.add(new JLabel("Test progress: "));
-		quizInfo.add(_wordCountLabel);
+		quizEndInfoPanel.add(new JLabel("Correct words:"));
+		quizEndInfoPanel.add(_sessionCorrectnessLabel);
+		quizEndInfoPanel.add(new JLabel("Accuracy:"));
+		quizEndInfoPanel.add(_sessionAccuracyLabel);
+		_quizEndPanel.add(quizEndInfoPanel);
+		_quizEndPanel.add(_quizEndMessageLabel);
+		quizEndButtonsPanel.add(_currentLevelButton);
+		quizEndButtonsPanel.add(_nextLevelButton);
+		quizEndButtonsPanel.add(_playVideoButton);
+		_quizEndPanel.add(quizEndButtonsPanel);
+		_quizEndPanel.setBorder(BorderFactory.createTitledBorder("End of quiz!"));
+		_quizEndPanel.setVisible(false);
+		_nextLevelButton.setVisible(false);
+		_playVideoButton.setVisible(false);
 		
+		quizIOPanel.add(_quizSessionPanel);
+		quizIOPanel.add(_quizEndPanel);
+		quizGridPanel.add(quizIOPanel);
+		quizGridPanel.add(quizInfoPanel);
 		_quizPanel.add(BorderLayout.NORTH,_quizMenuButton);
-		_quizPanel.add(BorderLayout.CENTER,quizInfo);
-		_quizPanel.add(BorderLayout.SOUTH,_input);
+		_quizPanel.add(BorderLayout.CENTER,quizGridPanel);
 	}
 	
 	private void setupOptionsPanel(){

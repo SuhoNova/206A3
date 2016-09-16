@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -54,7 +55,7 @@ public class SpellingAidController{
 		for(int i=0; i < _view._accuracyRatingQuizLabels.size();i++){
 			String rating = accuracyRatings.get(i);
 			_view._accuracyRatingQuizLabels.get(i).setText(rating);
-			_view._accuracyRatingOptionsLabels.get(i).setText(rating);
+			_view._accuracyRatingStatsLabels.get(i).setText(rating);
 		}
 	}
 	/**
@@ -114,6 +115,7 @@ public class SpellingAidController{
 				else{
 					_view._quizLevel.setVisible(true);
 				}
+				_view._quizSessionPanel.setBorder(BorderFactory.createTitledBorder(option+" Quiz"));
 			}
 			//logic for clicking quizLevel combobox
 			else if(e.getSource() == _view._quizLevel){
@@ -153,6 +155,17 @@ public class SpellingAidController{
 			//logic for clicking the end quiz button
 			else if(e.getSource() == _view._quizMenuButton){
 				_view._mainLayout.show(_view._mainPanel, "mainMenuPanel");
+			}
+			
+			
+			if(_model.isQuizEnded()){
+				_view._quizEndPanel.setVisible(true);
+				if(_model.getCorrectAttempts() >= 9){
+					_view._quizEndMessageLabel.setText("Quiz Passed. Go to next level?");
+					_view._nextLevelButton.setVisible(true);
+					_view._playVideoButton.setVisible(true);
+				}
+				_view._quizEndMessageLabel.setText("Quiz failed. Start new quiz?");
 			}
 			setAccuracyRatings(); //update accuracy ratings
 		}
