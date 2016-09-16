@@ -2,14 +2,10 @@ package viewAndController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import spellingAid.FileManager;
@@ -62,6 +58,21 @@ public class SpellingAidController{
 			_view._accuracyRatingStatsLabels.get(i).setText(rating);
 		}
 	}
+	/**Starts the quiz
+	 * 
+	 */
+	private void startQuiz(){
+		_model.startQuiz();
+		_view._quizEndPanel.setVisible(false);
+		_view._nextLevelButton.setVisible(false);
+		_view._playVideoButton.setVisible(false);
+		_view._mainLayout.show(_view._mainPanel, "quizPanel");
+		_view._wordCountLabel.setText(_model.getWordCount()+"/"+_model.getWordListSize());
+		_view._levelLabel.setText(_model.getQuizLevel()+"");
+		if(_model.getQuizType().equals("Review")){
+			_view._levelLabel.setText("Not available");
+		}
+	}
 	/**
 	 * ActionListener for the menu page
 	 * @author gillon
@@ -72,17 +83,11 @@ public class SpellingAidController{
 		public void actionPerformed(ActionEvent e) {
 			//logic for clicking startQuizButton
 			if(e.getSource() == _view._startQuizButton){
-				_model.startQuiz();
-				if(_model.getWordListSize()>0){
-					_view._mainLayout.show(_view._mainPanel, "quizPanel");
-					_view._wordCountLabel.setText(_model.getWordCount()+"/"+_model.getWordListSize());
-					_view._levelLabel.setText(_model.getQuizLevel()+"");
-				}else{
+				startQuiz();
+				if(_model.getWordListSize()==0){
 					JOptionPane.showMessageDialog(null, "No words to test! Please change settings in the options menu");
 				}
-				if(_model.getQuizType().equals("Review")){
-					_view._levelLabel.setText("Not available");
-				}
+
 			}
 			//Logic for clicking view stats button
 			else if(e.getSource() == _view._viewStatsButton){
@@ -164,6 +169,8 @@ public class SpellingAidController{
 			//end of quiz
 			if(_model.isQuizEnded()){
 				_view._quizEndPanel.setVisible(true);
+				_view._sessionAccuracyLabel.setText(_model.getSessionAccuracy()+"%");
+				_view._sessionCorrectnessLabel.setText(_model.getCorrectAttempts()+"/"+_model.getWordListSize());
 				if(_model.getCorrectAttempts() >= 9){
 					_view._quizEndMessageLabel.setText("Level mastered! Go to next level?");
 					_view._currentLevelButton.setText("Same Level");
@@ -176,10 +183,7 @@ public class SpellingAidController{
 				}
 				//listener logic for end quiz buttons
 				if(e.getSource() == _view._currentLevelButton){
-					_model.startQuiz();
-					_view._quizEndPanel.setVisible(false);
-					_view._nextLevelButton.setVisible(false);
-					_view._playVideoButton.setVisible(false);
+					startQuiz();
 				}
 				else if(e.getSource() == _view._nextLevelButton){
 					int lvl = _model.getQuizLevel();
@@ -188,7 +192,7 @@ public class SpellingAidController{
 					}
 					else{
 						_model.setQuizLevel(lvl+1);
-						_model.startQuiz();
+						startQuiz();
 						_view._quizEndPanel.setVisible(false);
 						_view._nextLevelButton.setVisible(false);
 						_view._playVideoButton.setVisible(false);
