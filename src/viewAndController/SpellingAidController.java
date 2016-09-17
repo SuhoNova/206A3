@@ -79,6 +79,28 @@ public class SpellingAidController{
 			_view._levelLabel.setText(_model.getQuizLevel()+"");
 		}
 	}
+	private void endQuiz(){
+		_view._quizEndPanel.setVisible(true);
+		_view._sessionAccuracyLabel.setText(_model.getSessionAccuracy()+"%");
+		_view._sessionCorrectnessLabel.setText(_model.getCorrectAttempts()+"/"+_model.getWordListSize());
+		if(_model.getCorrectAttempts() >= 9){
+			int lvl = _model.getQuizLevel();
+			if(lvl+1 > 11){
+				_view._quizEndMessageLabel.setText("Highest level mastered!");
+				_view._currentLevelButton.setText("New Quiz");
+			}
+			else{
+				_view._quizEndMessageLabel.setText("Level mastered! Go to next level?");
+				_view._currentLevelButton.setText("Same Level");
+				_view._nextLevelButton.setVisible(true);
+				_view._playVideoButton.setVisible(true);
+			}
+		}
+		else{
+			_view._quizEndMessageLabel.setText("Start new quiz?");
+			_view._currentLevelButton.setText("New quiz");
+		}
+	}
 	/**
 	 * ActionListener for the menu page
 	 * @author gillon
@@ -174,29 +196,14 @@ public class SpellingAidController{
 			else if(e.getSource() == _view._hearWordButton){
 				_model.hearWord();
 			}
-
+			//if faulted and review quiz
+			if(_model.isSpellEnabled()){
+				_view._spellWordButton.setVisible(true);
+			}
+			
 			//end of quiz
 			if(_model.isQuizEnded()){
-				_view._quizEndPanel.setVisible(true);
-				_view._sessionAccuracyLabel.setText(_model.getSessionAccuracy()+"%");
-				_view._sessionCorrectnessLabel.setText(_model.getCorrectAttempts()+"/"+_model.getWordListSize());
-				if(_model.getCorrectAttempts() >= 9){
-					int lvl = _model.getQuizLevel();
-					if(lvl+1 > 11){
-						_view._quizEndMessageLabel.setText("Highest level mastered!");
-						_view._currentLevelButton.setText("New Quiz");
-					}
-					else{
-						_view._quizEndMessageLabel.setText("Level mastered! Go to next level?");
-						_view._currentLevelButton.setText("Same Level");
-						_view._nextLevelButton.setVisible(true);
-						_view._playVideoButton.setVisible(true);
-					}
-				}
-				else{
-					_view._quizEndMessageLabel.setText("Start new quiz?");
-					_view._currentLevelButton.setText("New quiz");
-				}
+				endQuiz();
 				//listener logic for end quiz buttons
 				if(e.getSource() == _view._currentLevelButton){
 					startQuiz();

@@ -17,6 +17,7 @@ public class SpellingAidModel {
 	private int _nCorrect=0;
 	private boolean _isQuizEnded;
 	private int _nTotalAttempts = 0;
+	//private boolean isFaulted = 
 
 	//options logic
 	/**
@@ -192,5 +193,11 @@ public class SpellingAidModel {
 		double rating = (_nCorrect+0.0) / (_nTotalAttempts+0.0) *100;
 		rating = Math.round(rating*100.0)/100.0;
 		return rating;
+	}
+	/**
+	 * Returns if the word spelling is accessible to the user
+	 */
+	public boolean isSpellEnabled(){
+		return false;
 	}
 }
