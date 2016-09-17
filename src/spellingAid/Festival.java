@@ -3,6 +3,7 @@ package spellingAid;
 public class Festival{
 	private String _voice;
 	private boolean _apostropheExist = false;
+	private boolean _rehear = false;
 	//private FestivalWork _fw;
 
 	public Festival(String voice) {
@@ -31,6 +32,10 @@ public class Festival{
 		}
 		speakIt(word);
 	}
+	public void speakWord(String word, boolean rehear){
+		_rehear = rehear;
+		speakWord(word);
+	}
 	public void speakLetter(String word) {
 		String temp = "";
 		for(int i = 0; i < word.length(); i++){
@@ -46,14 +51,11 @@ public class Festival{
 
 	public void speakIt(String word) {
 		FestivalWork fw = new FestivalWork();
-		fw.setWordAndVoice(word, _voice);
+		fw.setWordAndVoice(word, _voice,_rehear);
 		fw.execute();
-		if(fw.isDone()){
-			System.out.println("Woah");
-		}
-
+		_rehear = false;
 	}
-
+	
 	public boolean doesApostropheExist(String word){
 		if(word.contains("'")){
 			return true;

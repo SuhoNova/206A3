@@ -179,6 +179,6 @@ public class SpellingAidModel {
 	 * 
 	 */
 	public void hearWord(){
-		_voice.speakWord(_word);
+		_voice.speakWord(_word,true);
 	}
 }
