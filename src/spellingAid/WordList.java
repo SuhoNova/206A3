@@ -20,7 +20,7 @@ public class WordList {
 		} catch (URISyntaxException e1) {
 			e1.printStackTrace();
 		}
-		_path = _path.replace("Voxspell_prototyype.jar", "");
+		_path = _path.replace("Voxspell_prototype.jar", "");
 
 		_level = lvl;
 		if(quizType.equals("Normal")){

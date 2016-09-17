@@ -21,7 +21,7 @@ public class FileManager {
 		} catch (URISyntaxException e1) {
 			e1.printStackTrace();
 		}
-		_path = _path.replace("Voxspell_prototyype.jar", "");
+		_path = _path.replace("Voxspell_prototype.jar", "");
 		PrintWriter outputFile;
 		try{
 			outputFile = new PrintWriter(new FileWriter(_path+".mastered", true));
