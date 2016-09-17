@@ -4,7 +4,7 @@ public class Festival{
 	private String _voice;
 	private boolean _apostropheExist = false;
 	//private FestivalWork _fw;
-	
+
 	public Festival(String voice) {
 		// CHANGE to voice FOR VOICE
 		/*
@@ -18,10 +18,10 @@ public class Festival{
 		 * rab_diphone
 		 * 
 		 */
-		_voice = "kal_diphone";
+		changeVoice(voice);
 		//_fw = new FestivalWork();
 	}
-	
+
 	public void speakWord(String word) {
 		_apostropheExist = doesApostropheExist(word);
 		if(_apostropheExist){
@@ -43,7 +43,7 @@ public class Festival{
 		word = temp;
 		speakIt(word);
 	}
-	
+
 	public void speakIt(String word) {
 		FestivalWork fw = new FestivalWork();
 		fw.setWordAndVoice(word, _voice);
@@ -51,9 +51,9 @@ public class Festival{
 		if(fw.isDone()){
 			System.out.println("Woah");
 		}
-		
+
 	}
-	
+
 	public boolean doesApostropheExist(String word){
 		if(word.contains("'")){
 			return true;
@@ -61,7 +61,18 @@ public class Festival{
 		return false;
 	}
 	public void changeVoice(String voice){
-		_voice = voice;
+		if(voice.equalsIgnoreCase("american")){
+			_voice = "kal_diphone";
+		}
+		else if(voice.equalsIgnoreCase("new zealander")){
+			_voice = "akl_nz_jdt_diphone";
+		}
+		else if(voice.equalsIgnoreCase("british")){
+			_voice = "rab_diphone";
+		}
+		else{
+			_voice = "kal_diphone";
+		}
 	}
 	public String getVoice(){
 		return _voice;
