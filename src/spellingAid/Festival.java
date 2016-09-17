@@ -40,11 +40,12 @@ public class Festival{
 		String temp = "";
 		for(int i = 0; i < word.length(); i++){
 			if(word.charAt(i) == '\''){
-				temp += "apostrophe ...... ";
+				temp += "apostrophe ";
 			} else {
-				temp += word.charAt(i) + " ...... ";
+				temp += word.charAt(i) + " ";
 			}
 		}
+		_rehear = true;
 		word = temp;
 		speakIt(word);
 	}
