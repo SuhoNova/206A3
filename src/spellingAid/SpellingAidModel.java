@@ -17,6 +17,7 @@ public class SpellingAidModel {
 	private int _nCorrect=0;
 	private boolean _isQuizEnded;
 	private int _nTotalAttempts = 0;
+	private boolean _isFaulted = false;
 
 	//options logic
 	/**
@@ -106,6 +107,7 @@ public class SpellingAidModel {
 				_fm.updateAccuracyRatings(_quizLevel, false);
 			}
 			if(_nAttempts < MAX_ATTEMPTS){
+				_isFaulted=true;
 				_voice.speakIt("Incorrect, try once more");
 				//ice.speakIt(" try once more ");//+_word+" ..... "+_word);
 				_voice.speakWord(_word);
@@ -137,6 +139,7 @@ public class SpellingAidModel {
 	 */
 	private void continueQuiz(){
 		_nWordsCount++;
+		_isFaulted = false;
 		_word = _wordList.getWord(); //get new word
 		_nAttempts = 0;
 		_voice.speakIt("Please spell the word: ");
@@ -192,5 +195,14 @@ public class SpellingAidModel {
 		double rating = (_nCorrect+0.0) / (_nTotalAttempts+0.0) *100;
 		rating = Math.round(rating*100.0)/100.0;
 		return rating;
+	}
+	/**
+	 * Returns if the word spelling is accessible to the user
+	 */
+	public boolean isSpellEnabled(){
+		return _isFaulted&&_quizType.equalsIgnoreCase("review");
+	}
+	public void _spellWord() {
+		_voice.speakLetter(_word);
 	}
 }
