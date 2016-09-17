@@ -54,7 +54,7 @@ public class VideoReward extends JFrame implements ActionListener{
 	private long _videoLength;
 	private int _timeSkip = 5000;
 	public VideoReward(){
-		this("big_buck_bunny_1_minute.avi");
+		this(".big_buck_bunny_1_minute.avi");
 	}
 	/**
 	 * 
@@ -84,7 +84,7 @@ public class VideoReward extends JFrame implements ActionListener{
 		setSize(640,480);	
 		setLocation(100,100);
 		
-		_filename = filename;
+		_filename = _path+filename;
 
 	}
 	public void setFilename(String name){
