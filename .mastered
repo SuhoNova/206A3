@@ -34,7 +34,6 @@ other
 dad
 <<<<<<< HEAD
 =======
-the
 to
 there
 they
@@ -59,9 +58,18 @@ going
 go
 were
 >>>>>>> e3ebc48cc51319bdf4a5c1d5d0e1f60c4782bac1
+<<<<<<< HEAD
 a
 we
+=======
+in
+it
+>>>>>>> 80162a873e9ede5d3356a0a281c139c11d751405
 was
+<<<<<<< HEAD
+permanent
+the
+=======
 I
 acceptance
 university
@@ -79,6 +87,7 @@ so
 had
 she
 is
+<<<<<<< HEAD
 brilliant
 recognise
 opposition
@@ -88,3 +97,6 @@ similar
 descend
 and
 it
+=======
+>>>>>>> 008794060ad2e00962952d0242101cc3f351229b
+>>>>>>> 80162a873e9ede5d3356a0a281c139c11d751405

@@ -183,7 +183,7 @@ public class SpellingAidModel {
 	 * Speaks the word to be spelled
 	 */
 	public void hearWord(){
-		_voice.speakWord(_word);
+		_voice.speakWord(_word,true);
 	}
 	/**
 	 * Returns the spelling accuracy of the current quiz to 2 decimal places
