@@ -3,6 +3,7 @@ package spellingAid;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URISyntaxException;
 
 import javax.swing.JFrame;
 
@@ -16,6 +17,7 @@ public class SpellingAid {
 		SpellingAidModel model = new SpellingAidModel();
 		SpellingAidController controller = new SpellingAidController(view, model); 
 		//VideoReward vr = new VideoReward();
+		
 	}
 	
 }

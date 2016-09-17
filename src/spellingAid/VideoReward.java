@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -43,6 +44,8 @@ public class VideoReward extends JFrame implements ActionListener{
 	private JButton _normal;
 	private JButton _flipVideo;
 	
+	private String _path;
+	
 	// mod = true means ffmpeg
 	//private boolean _mod;
 	
@@ -59,6 +62,15 @@ public class VideoReward extends JFrame implements ActionListener{
 	 */
 	public VideoReward(String filename){	
 		super("Video Reward");
+		try {
+			_path = SpellingAid.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+			System.out.println(_path);
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		_path = _path.replace("Voxspell_prototype.jar", "");
+		System.out.println(_path);
 		setLibUp();
 
 		_mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
@@ -73,13 +85,10 @@ public class VideoReward extends JFrame implements ActionListener{
 		setLocation(100,100);
 		
 		_filename = filename;
-		
-		//if(!_mod){
-			//addMedia();
-		//}
+
 	}
 	public void setFilename(String name){
-		_filename = name;
+		_filename = _path + name;
 	}
 	
 	public void actionPerformed(ActionEvent event) {
@@ -87,7 +96,7 @@ public class VideoReward extends JFrame implements ActionListener{
 			_flipVideo.setText("Processing video please wait few seconds...");
 			_flipVideo.removeActionListener(this);
 			_normal.removeActionListener(this);
-			VideoRewardFfmpeg vf = new VideoRewardFfmpeg(_filename, this,"vflip");
+			VideoRewardFfmpeg vf = new VideoRewardFfmpeg(_filename, this,"vflip",_path);
 			vf.execute();
 		}else if(event.getSource() == _normal){
 			_flipVideo.removeActionListener(this);
