@@ -12,21 +12,29 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FileManager {
+	private String _path=null;
+	
 	public FileManager(){
 		//create necessary files on startup
+		try {
+			_path = SpellingAid.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+		_path = _path.replace("Voxspell_prototyype.jar", "");
 		PrintWriter outputFile;
 		try{
-			outputFile = new PrintWriter(new FileWriter(".mastered", true));
+			outputFile = new PrintWriter(new FileWriter(_path+".mastered", true));
 			outputFile.close();
-			outputFile = new PrintWriter(new FileWriter(".faulted", true));
+			outputFile = new PrintWriter(new FileWriter(_path+".faulted", true));
 			outputFile.close();
-			outputFile = new PrintWriter(new FileWriter(".failed", true));
+			outputFile = new PrintWriter(new FileWriter(_path+".failed", true));
 			outputFile.close();
-			outputFile = new PrintWriter(new FileWriter(".stats", true));
+			outputFile = new PrintWriter(new FileWriter(_path+".stats", true));
 			outputFile.close();
-			File f = new File(".accuracy");
+			File f = new File(_path+".accuracy");
 			if(!f.exists()){
-				outputFile = new PrintWriter(new FileWriter(".accuracy", true));
+				outputFile = new PrintWriter(new FileWriter(_path+".accuracy", true));
 				for(int i=0; i<11; i++){
 					outputFile.println("0-0");
 				}
@@ -46,8 +54,8 @@ public class FileManager {
 	public void handleQuizzedWords(String word, String wordType) {
 		try {
 			//appends the word to the necessary file ("mastered", "faulted", "failed") 
-			if(!isInFile(word,wordType)){
-				PrintWriter file = new PrintWriter(new FileWriter(wordType, true));
+			if(!isInFile(word,_path+wordType)){
+				PrintWriter file = new PrintWriter(new FileWriter(_path+wordType, true));
 				file.println(word);
 				file.close();
 			}
@@ -80,7 +88,7 @@ public class FileManager {
 	public void updateAccuracyRatings(int level, boolean isCorrect){
 		try {
 			ArrayList<String> correctnessRatio = new ArrayList<String>(); 
-			BufferedReader inputFile = new BufferedReader(new FileReader(".accuracy"));
+			BufferedReader inputFile = new BufferedReader(new FileReader(_path+".accuracy"));
 			String line;
 			while((line = inputFile.readLine())!=null){
 				correctnessRatio.add(line);
@@ -94,7 +102,7 @@ public class FileManager {
 			}
 			correctnessRatio.set(level-1, ratio[0]+"-"+ratio[1]);
 			//rewrite accuracy file
-			PrintWriter outputFile = new PrintWriter(new FileWriter(".accuracy", false));
+			PrintWriter outputFile = new PrintWriter(new FileWriter(_path+".accuracy", false));
 			for(String s: correctnessRatio){
 				outputFile.println(s);
 			}
@@ -112,7 +120,7 @@ public class FileManager {
 		ArrayList<String> correctnessRatio = new ArrayList<String>();
 		//read accuracy file
 		try { 
-			BufferedReader inputFile = new BufferedReader(new FileReader(".accuracy"));
+			BufferedReader inputFile = new BufferedReader(new FileReader(_path+".accuracy"));
 			String line;
 			while((line = inputFile.readLine())!=null){
 				correctnessRatio.add(line);
@@ -148,7 +156,7 @@ public class FileManager {
 	 */
 	private void updateStatistics(String word, String wordType) throws IOException {
 		ArrayList<String> statsList = new ArrayList<String>();
-		BufferedReader inputFile = new BufferedReader(new FileReader(".stats"));
+		BufferedReader inputFile = new BufferedReader(new FileReader(_path+".stats"));
 		//store "stats" contents into an ArrayList
 		String line;
 		while((line = inputFile.readLine())!=null){
@@ -184,7 +192,7 @@ public class FileManager {
 			statsList.set(i+3, value+"");
 		}
 		//rewrite "stats" file
-		PrintWriter outputFile = new PrintWriter(new FileWriter(".stats", false));
+		PrintWriter outputFile = new PrintWriter(new FileWriter(_path+".stats", false));
 		for(int j=0; j < statsList.size()-3;j+=4){
 			outputFile.println(statsList.get(j)+"-"+statsList.get(j+1)+"-"+statsList.get(j+2)+"-"+statsList.get(j+3));
 		}
@@ -217,7 +225,7 @@ public class FileManager {
 	 */
 	private void updateQuizzedWords(String word, String fileToUpdate) throws IOException{
 		ArrayList<String> tempWordsList = new ArrayList<String>();
-		BufferedReader inputFile = new BufferedReader(new FileReader(fileToUpdate));
+		BufferedReader inputFile = new BufferedReader(new FileReader(_path+fileToUpdate));
 		String line;
 		while((line = inputFile.readLine())!=null){
 			line=line.trim();
@@ -226,7 +234,7 @@ public class FileManager {
 			}
 		}
 		inputFile.close();
-		PrintWriter outputFile = new PrintWriter(new FileWriter(fileToUpdate, false));
+		PrintWriter outputFile = new PrintWriter(new FileWriter(_path+fileToUpdate, false));
 		for(String s: tempWordsList){
 			outputFile.println(s);
 		}
@@ -239,15 +247,15 @@ public class FileManager {
 	public void clearStats() {
 		PrintWriter outputFile;
 		try{
-			outputFile = new PrintWriter(new FileWriter(".mastered", false));
+			outputFile = new PrintWriter(new FileWriter(_path+".mastered", false));
 			outputFile.close();
-			outputFile = new PrintWriter(new FileWriter(".faulted", false));
+			outputFile = new PrintWriter(new FileWriter(_path+".faulted", false));
 			outputFile.close();
-			outputFile = new PrintWriter(new FileWriter(".failed", false));
+			outputFile = new PrintWriter(new FileWriter(_path+".failed", false));
 			outputFile.close();
-			outputFile = new PrintWriter(new FileWriter(".stats", false));
+			outputFile = new PrintWriter(new FileWriter(_path+".stats", false));
 			outputFile.close();
-			outputFile = new PrintWriter(new FileWriter(".accuracy", false));
+			outputFile = new PrintWriter(new FileWriter(_path+".accuracy", false));
 			for(int i=0; i<11; i++){
 				outputFile.println("0-0");
 			}
@@ -268,7 +276,7 @@ public class FileManager {
 			stats+="----------------------------------------------\n";
 			stats+="word-mastered-faulted-failed\n";
 			stats+="----------------------------------------------\n";
-			BufferedReader inputFile = new BufferedReader(new FileReader(".stats"));
+			BufferedReader inputFile = new BufferedReader(new FileReader(_path+".stats"));
 			String line;
 			while((line=inputFile.readLine())!= null){
 				stats+=line+"\n";

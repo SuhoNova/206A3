@@ -81,13 +81,11 @@ public class SpellingAidModel {
 		_nTotalAttempts++;
 		//if attempt is correct
 		if(_attempt.equalsIgnoreCase(_word)){
-			
 			_nCorrect++;
 			if(_quizType.equals("Normal")){
 				_fm.updateAccuracyRatings(_quizLevel, true);
 			}
 			_voice.speakIt("Correct");
-			System.out.println("Correct");
 			if(_nAttempts == 1){
 				_fm.handleQuizzedWords(_word, ".mastered");
 			}
@@ -109,15 +107,11 @@ public class SpellingAidModel {
 			if(_nAttempts < MAX_ATTEMPTS){
 				_isFaulted=true;
 				_voice.speakIt("Incorrect, try once more");
-				//ice.speakIt(" try once more ");//+_word+" ..... "+_word);
 				_voice.speakWord(_word);
-				
-				System.out.println("Incorrect, try once more ..... "+_word+" ..... "+_word);
 			}
 			else{
 				_fm.handleQuizzedWords(_word, ".failed");
 				_voice.speakIt("Incorrect");
-				System.out.println("Incorrect");
 				if(_nWordsCount>=_nWords){
 					_isQuizEnded = true;
 				}
@@ -144,7 +138,6 @@ public class SpellingAidModel {
 		_nAttempts = 0;
 		_voice.speakIt("Please spell the word: ");
 		_voice.speakWord(_word);
-		System.out.println("Please spell the word: "+_word+"...... "+_word);
 	}
 	/**
 	 * Returns the quiz level that hasbeen set
