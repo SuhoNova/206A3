@@ -46,9 +46,4 @@ public class FestivalWork extends SwingWorker<Void,Void> {
 		//process.destroy();
 		return null;
 	}
-	@Override
-	protected void done(){
-		System.out.println("done");
-	}
-
 }

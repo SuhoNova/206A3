@@ -43,7 +43,7 @@ public class SpellingAidView extends JFrame{
 	JPanel _quizSessionPanel = new JPanel(new GridLayout(4,1));
 	JPanel _quizEndPanel = new JPanel(new GridLayout(3,1));
 	JButton _hearWordButton = new JButton("Hear word");
-	JButton _spellWordButton = new JButton("Hear Spelling");
+	JButton _spellWordButton = new JButton("Spell word");
 	JButton _quizMenuButton = new JButton("Back to menu");
 	JTextField _input= new JTextField();
 	JLabel _quizEndMessageLabel = new JLabel("");
@@ -68,7 +68,7 @@ public class SpellingAidView extends JFrame{
 	
 	public SpellingAidView(){
 		//create SpellingAid window
-		super("Spelling Aid");
+		super("VOXSPELL (prototype)");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		setSize(500,350);	
@@ -124,7 +124,7 @@ public class SpellingAidView extends JFrame{
 	}
 	
 	private void setupMainMenuPanel() {
-		_mainMenuPanel.add(new JLabel("Welcome to Spelling Aid!", SwingConstants.CENTER));
+		_mainMenuPanel.add(new JLabel("Welcome to VOXSPELL!", SwingConstants.CENTER));
 		_mainMenuPanel.add(_startQuizButton);
 		_mainMenuPanel.add(_viewStatsButton);
 		_mainMenuPanel.add(_optionsButton);

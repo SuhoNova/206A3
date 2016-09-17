@@ -3,6 +3,7 @@ package spellingAid;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -10,15 +11,24 @@ public class WordList {
 	private String _source = "NZCER-spelling-lists.txt";
 	private ArrayList<String> _wordList;
 	private int _level;
-	
+	private String _path=null;
+
 	public WordList(String quizType, int lvl){
+		//create necessary files on startup
+		try {
+			_path = SpellingAid.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+		_path = _path.replace("Voxspell_prototyype.jar", "");
+
 		_level = lvl;
 		if(quizType.equals("Normal")){
-			_source = "NZCER-spelling-lists.txt";
+			_source = _path+"NZCER-spelling-lists.txt";
 			createNormalWordList();
 		}
 		else if(quizType.equals("Review")){
-			_source = ".failed";
+			_source = _path+".failed";
 			createReviewWordList();
 		}
 	}
@@ -26,7 +36,7 @@ public class WordList {
 	public int size(){
 		return _wordList.size();
 	}
-	
+
 	//sets the word being tested
 	public String getWord() {
 		Random r = new Random();
@@ -35,7 +45,7 @@ public class WordList {
 		_wordList.remove(pos);
 		return word;
 	}
-	
+
 	//creates the list of possible words that can be used for review quiz
 	private void createReviewWordList(){
 		try {
@@ -53,7 +63,7 @@ public class WordList {
 			e.printStackTrace();
 		}
 	}
-	
+
 	//creates the list of possible words that can be used for spelling quiz
 	private void createNormalWordList() {
 		try {
