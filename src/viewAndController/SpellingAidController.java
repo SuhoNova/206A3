@@ -213,27 +213,7 @@ public class SpellingAidController{
 
 			//end of quiz
 			if(_model.isQuizEnded()){
-<<<<<<< HEAD
-				_view._quizEndPanel.setVisible(true);
-				_view._sessionAccuracyLabel.setText(_model.getSessionAccuracy()+"%");
-				_view._sessionCorrectnessLabel.setText(_model.getCorrectAttempts()+"/"+_model.getWordListSize());
-				if(_model.getCorrectAttempts() >= 9){
-					int lvl = _model.getQuizLevel();
-					if(lvl+1 > 11){
-						_view._quizEndMessageLabel.setText("Highest level mastered!");
-						_view._currentLevelButton.setText("New Quiz");
-					}
-					else{
-						_view._quizEndMessageLabel.setText("Level mastered! Go to next level?");
-						_view._currentLevelButton.setText("Same Level");
-						_view._nextLevelButton.setVisible(true);
-						_view._playVideoButton.setVisible(true);
-					}
-				}
-				else{
-					_view._quizEndMessageLabel.setText("Start new quiz?");
-					_view._currentLevelButton.setText("New quiz");
-				}
+				endQuiz();
 				//listener logic for end quiz buttons
 				if(e.getSource() == _view._currentLevelButton){
 					startQuiz();
@@ -246,21 +226,6 @@ public class SpellingAidController{
 				if(e.getSource() == _view._playVideoButton){
 					VideoReward vr = new VideoReward();
 				}
-=======
-				endQuiz();
-			}
-			//listener logic for end quiz buttons
-			if(e.getSource() == _view._currentLevelButton){
-				startQuiz();
-			}
-			else if(e.getSource() == _view._nextLevelButton){
-				int lvl = _model.getQuizLevel();
-				_model.setQuizLevel(lvl+1);
-				startQuiz();
-			}
-			if(e.getSource() == _view._playVideoButton){
-				VideoReward vr = new VideoReward(false);
->>>>>>> baaa380b4a83935c2c9946bd0b67068d0662b505
 			}
 			setAccuracyRatings(); //update accuracy ratings
 		}

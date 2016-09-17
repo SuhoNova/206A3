@@ -12,10 +12,10 @@ import viewAndController.SpellingAidView;
 public class SpellingAid {
 	public static void main(String[] args){
 		
-		//SpellingAidView view = new SpellingAidView();
-		//SpellingAidModel model = new SpellingAidModel();
-		//SpellingAidController controller = new SpellingAidController(view, model); 
-		VideoReward vr = new VideoReward();
+		SpellingAidView view = new SpellingAidView();
+		SpellingAidModel model = new SpellingAidModel();
+		SpellingAidController controller = new SpellingAidController(view, model); 
+		//VideoReward vr = new VideoReward();
 	}
 	
 }
