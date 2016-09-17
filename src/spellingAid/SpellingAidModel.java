@@ -16,6 +16,7 @@ public class SpellingAidModel {
 	private int _nAttempts=0;
 	private int _nCorrect=0;
 	private boolean _isQuizEnded;
+	private int _nTotalAttempts = 0;
 
 	//options logic
 	/**
@@ -63,6 +64,7 @@ public class SpellingAidModel {
 		_nWordsCount = 0;
 		_isQuizEnded = false;
 		_nCorrect=0;
+		_nTotalAttempts=0;
 		if(_nWords > 0){
 			continueQuiz();
 		}
@@ -75,6 +77,7 @@ public class SpellingAidModel {
 	public void quizAttempt(String attempt) {
 		_attempt = attempt;
 		_nAttempts++;
+		_nTotalAttempts++;
 		//if attempt is correct
 		if(_attempt.equalsIgnoreCase(_word)){
 			
@@ -176,9 +179,18 @@ public class SpellingAidModel {
 		return _nCorrect;
 	}
 	/**
-	 * 
+	 * Speaks the word to be spelled
 	 */
 	public void hearWord(){
 		_voice.speakWord(_word,true);
+	}
+	/**
+	 * Returns the spelling accuracy of the current quiz to 2 decimal places
+	 * @return
+	 */
+	public double getSessionAccuracy(){
+		double rating = (_nCorrect+0.0) / (_nTotalAttempts+0.0) *100;
+		rating = Math.round(rating*100.0)/100.0;
+		return rating;
 	}
 }

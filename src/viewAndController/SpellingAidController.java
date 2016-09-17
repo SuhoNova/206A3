@@ -178,10 +178,12 @@ public class SpellingAidController{
 			//end of quiz
 			if(_model.isQuizEnded()){
 				_view._quizEndPanel.setVisible(true);
+				_view._sessionAccuracyLabel.setText(_model.getSessionAccuracy()+"%");
+				_view._sessionCorrectnessLabel.setText(_model.getCorrectAttempts()+"/"+_model.getWordListSize());
 				if(_model.getCorrectAttempts() >= 9){
 					int lvl = _model.getQuizLevel();
 					if(lvl+1 > 11){
-						_view._quizEndMessageLabel.setText("Highest level mastered! Start new quiz?");
+						_view._quizEndMessageLabel.setText("Highest level mastered!");
 						_view._currentLevelButton.setText("New Quiz");
 					}
 					else{
