@@ -47,6 +47,7 @@ public class SpellingAidController{
 		_view._nextLevelButton.addActionListener(_quizListener);
 		_view._playVideoButton.addActionListener(_quizListener);
 		_view._hearWordButton.addActionListener(_quizListener);
+		_view._spellWordButton.addActionListener(_quizListener);
 		//add listeners for stats page
 		_view._statsMenuButton.addActionListener(_statsListener);
 		_view._clearStatsButton.addActionListener(_statsListener);
