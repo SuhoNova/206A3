@@ -205,7 +205,7 @@ public class SpellingAidController{
 					startQuiz();
 				}
 				if(e.getSource() == _view._playVideoButton){
-					VideoReward vr = new VideoReward("");
+					VideoReward vr = new VideoReward(false);
 				}
 			}
 			setAccuracyRatings(); //update accuracy ratings
