@@ -41,7 +41,7 @@ public class FestivalWork extends SwingWorker<Void,Void> {
 		Process process = rt.exec("festival --pipe");
 		OutputStream output = process.getOutputStream();
 		
-		output.write(("(voice"+_voice+")n").getBytes());
+		output.write(("(voice_"+_voice+")n").getBytes());
 		output.flush();
 		output.write(("(SayText \""+_word+"\")n").getBytes());
 		output.flush();
