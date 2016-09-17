@@ -20,10 +20,10 @@ public class VideoRewardFfmpeg extends SwingWorker<Void,Void> {
 	@Override
 	protected Void doInBackground() throws Exception {
 		String command = "";
-		if((new File("out.avi")).exists()){
-			command = "pwd;rm out.avi;ffmpeg -i "+_filename+" -vf "+_option+" "+_path+" /out.avi";
+		if((new File(_path+".out.avi")).exists()){
+			command = "rm out.avi;ffmpeg -i "+_filename+" -vf "+_option+" "+_path+".out.avi";
 		}else{
-			command = "pwd;ffmpeg -i "+_filename+" -vf "+_option+" "+_path+" ./out.avi";
+			command = "ffmpeg -i "+_filename+" -vf "+_option+" "+_path+".out.avi";
 		}
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
 		try {
