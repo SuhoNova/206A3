@@ -26,7 +26,7 @@ public class Festival{
 	public void speakWord(String word) {
 		_apostropheExist = doesApostropheExist(word);
 		if(_apostropheExist){
-			word =  word + " The one with an apostrophe.";
+			word =  word + ". With an apostrophe.";
 		} else {
 			word = word;
 		}
