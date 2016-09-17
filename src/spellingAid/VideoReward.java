@@ -88,7 +88,7 @@ public class VideoReward extends JFrame implements ActionListener{
 
 	}
 	public void setFilename(String name){
-		_filename = _path + name;
+		_filename = name;
 	}
 	
 	public void actionPerformed(ActionEvent event) {
