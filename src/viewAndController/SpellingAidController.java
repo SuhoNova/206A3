@@ -68,7 +68,13 @@ public class SpellingAidController{
 	 */
 	private void startQuiz(){
 		_model.startQuiz();
-		_view._mainLayout.show(_view._mainPanel, "quizPanel");
+		if(_model.getWordListSize()>0){
+			_view._mainLayout.show(_view._mainPanel, "quizPanel");
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "No words to test! Please change settings in the options menu");
+			_view._mainLayout.show(_view._mainPanel, "mainMenuPanel");
+		}
 		_view._wordCountLabel.setText(_model.getWordCount()+"/"+_model.getWordListSize());
 		_view._quizEndPanel.setVisible(false);
 		_view._nextLevelButton.setVisible(false);
@@ -112,9 +118,6 @@ public class SpellingAidController{
 			//logic for clicking startQuizButton
 			if(e.getSource() == _view._startQuizButton){
 				startQuiz();
-				if(_model.getWordListSize()==0){
-					JOptionPane.showMessageDialog(null, "No words to test! Please change settings in the options menu");
-				}
 			}
 			//Logic for clicking view stats button
 			else if(e.getSource() == _view._viewStatsButton){
@@ -200,22 +203,29 @@ public class SpellingAidController{
 			if(_model.isSpellEnabled()){
 				_view._spellWordButton.setVisible(true);
 			}
-			
+			else{
+				_view._spellWordButton.setVisible(false);
+			}
+			//logic for clicking the spell word button
+			if(e.getSource()==_view._spellWordButton){
+				_model._spellWord();
+			}
+
 			//end of quiz
 			if(_model.isQuizEnded()){
 				endQuiz();
-				//listener logic for end quiz buttons
-				if(e.getSource() == _view._currentLevelButton){
-					startQuiz();
-				}
-				else if(e.getSource() == _view._nextLevelButton){
-					int lvl = _model.getQuizLevel();
-					_model.setQuizLevel(lvl+1);
-					startQuiz();
-				}
-				if(e.getSource() == _view._playVideoButton){
-					VideoReward vr = new VideoReward(false);
-				}
+			}
+			//listener logic for end quiz buttons
+			if(e.getSource() == _view._currentLevelButton){
+				startQuiz();
+			}
+			else if(e.getSource() == _view._nextLevelButton){
+				int lvl = _model.getQuizLevel();
+				_model.setQuizLevel(lvl+1);
+				startQuiz();
+			}
+			if(e.getSource() == _view._playVideoButton){
+				VideoReward vr = new VideoReward(false);
 			}
 			setAccuracyRatings(); //update accuracy ratings
 		}
