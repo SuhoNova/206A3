@@ -18,6 +18,9 @@ public class VideoRewardFfmpeg extends SwingWorker<Void,Void> {
 		_vr = vr;
 		_outputVideo=path+".out.avi";
 	}
+	/**
+	 * Processes video into wanted modification using ffmpeg
+	 */
 	@Override
 	protected Void doInBackground() throws Exception {
 		String command = "";

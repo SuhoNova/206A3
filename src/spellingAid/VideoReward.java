@@ -46,18 +46,13 @@ public class VideoReward extends JFrame implements ActionListener{
 	
 	private String _path;
 	
-	// mod = true means ffmpeg
-	//private boolean _mod;
-	
-	
-	
 	private long _videoLength;
 	private int _timeSkip = 5000;
 	public VideoReward(){
 		this(".big_buck_bunny_1_minute.avi");
 	}
 	/**
-	 * 
+	 * Sets up necessary objects for video playing in new window
 	 * @param filename
 	 */
 	public VideoReward(String filename){	
@@ -65,11 +60,9 @@ public class VideoReward extends JFrame implements ActionListener{
 		try {
 			_path = SpellingAid.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		_path = _path.replace("Voxspell_prototype.jar", "");
-		System.out.println(_path);
 		setLibUp();
 
 		_mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
@@ -84,7 +77,6 @@ public class VideoReward extends JFrame implements ActionListener{
 		setLocation(100,100);
 		
 		_filename = _path+filename;
-
 	}
 	public void setFilename(String name){
 		_filename = name;
@@ -138,7 +130,6 @@ public class VideoReward extends JFrame implements ActionListener{
 			}
 		}
 	}
-	
 	public void setLibUp(){
 		NativeLibrary.addSearchPath(
 	            RuntimeUtil.getLibVlcLibraryName(), "/Applications/vlc-2.0.0/VLC.app/Contents/MacOS/lib"
