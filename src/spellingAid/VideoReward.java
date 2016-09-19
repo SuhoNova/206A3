@@ -64,7 +64,6 @@ public class VideoReward extends JFrame implements ActionListener{
 		super("Video Reward");
 		try {
 			_path = SpellingAid.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-			System.out.println(_path);
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

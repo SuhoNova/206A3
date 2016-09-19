@@ -26,7 +26,6 @@ public class SpellingAidModel {
 	 */
 	public void setQuizLevel(int level) {
 		_quizLevel = level;
-		System.out.println(_quizLevel);
 	}
 	/**
 	 * Set the type of quiz that will be taken
@@ -34,7 +33,6 @@ public class SpellingAidModel {
 	 */
 	public void setQuizType(String type) {
 		_quizType = type;
-		System.out.println(_quizType);
 	}
 	/**
 	 * Set the voice type used for speech
@@ -42,7 +40,6 @@ public class SpellingAidModel {
 	 */
 	public void setVoiceType(String type) {
 		_voice.changeVoice(type);
-		System.out.println(type);
 	}
 
 	//---------------------------------------------------------------------------------------

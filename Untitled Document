@@ -1,2 +1,0 @@
-_path = Spelling_Aid_A2.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-		_path = _path.replace("Spelling_Aid_A2.jar", "");
